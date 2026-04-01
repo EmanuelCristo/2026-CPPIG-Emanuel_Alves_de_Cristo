@@ -1,8 +1,12 @@
  <header class="bg-primary .bg-gradient shadow-sm">
      <div class="container-fluid py-3">
          <div class="text-center">
-             <h2 class="mb-1 text-white">Sistemas de Chaves</h2>
+             <a class="text-white" style="text-decoration: none;" href="{% url 'index' %}">
+                 <h2 class="mb-1 text-white">Sistemas de Chaves</h2>
+             </a>
              <p class="text-white">Centro de Tecnologia UFSM</p>
+             <a class="text-white" href="{% url 'sala_criar' %}">Criar Salas</a>
+             <a class="text-white" href="{% url 'salas' %}">Listar Salas</a>
          </div>
      </div>
  </header>

@@ -9,9 +9,14 @@
   </head>
 </html>
 <body>
-	{% block header %} {% include "header.html" %} {% endblock %}
+	{% block header %}
+        {% include 'header.html' %}
+    {% endblock %}
 
-	{% block main %} {% include "main.html" %} {% endblock %}
+    {% block content %} {% endblock %}
 
-	{% block footer %} {% include "footer.html" %} {% endblock %}
+	{% block footer %}
+        {% include 'footer.html' %}
+    {% endblock %}
+
 </body>
