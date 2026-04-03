@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 {% load static %}
+{% load django_bootstrap5 %}
 {% block content %}
   <section class="section">
     <div class="container">
@@ -26,6 +27,7 @@
                 <th>Nome</th>
                 <th>Tipo</th>
                 <th>Anexo</th>
+                <th style="width: 100px; text-align: center">Ações</th>
               </thead>
               <tbody>
               {% for sala in object_list %}
@@ -33,6 +35,18 @@
                   <td>{{ sala.nome }}</td>
                   <td>{{ sala.tipo }}</td>
                   <td>{{ sala.anexo }}</td>
+                  <td style="text-align: center">
+                    <a href="{% url 'sala_editar' sala.pk %}">
+                      <span class="icon">
+                       <i class="bi bi-pencil-fill"></i>
+                      </span>
+                    </a>
+                    <a href="{% url 'sala_apagar' sala.pk %}">
+                      <span class="icon">
+                        <i class="bi bi-trash-fill"></i>
+                      </span>
+                    </a>
+                  </td>
                 </tr>
               {% endfor %}
               </tbody>

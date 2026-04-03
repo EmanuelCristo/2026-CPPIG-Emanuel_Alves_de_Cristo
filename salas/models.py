@@ -1,9 +1,11 @@
+from django.core.validators import RegexValidator
 from django.db import models
 
 class Sala(models.Model):
-    nome = models.CharField('Nome', max_length=100, help_text='Nome da sala', unique=True)
+    nome = models.CharField('Nome', max_length=100, help_text='Nome da sala', unique=True, validators=[RegexValidator(regex=r'^\d{3,3}$',)])
     tipo = models.CharField('Tipo', max_length=100, help_text='Tipo da sala')
     anexo = models.CharField('Anexo', max_length=100, help_text='Anexo da sala')
+
 
     class Meta:
         verbose_name = 'Sala'
