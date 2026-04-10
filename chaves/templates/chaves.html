@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <form action="" method="GET">
+        <div class="form-group row p-3">
+          <label class="col-sm-2 col-from-label">Chave da Sala: </label>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" name="buscar" value="{{ request.GET.buscar }}"
+                  placeholder="Digite o nome do Sala da Chave">
+          </div>
+          <div class="col-sm-2">
+            <button type="submit" class="btn btn-primary">
+              Buscar
+            </button>
+          </div>
+        </div>
+      </form>
+      {% if object_list %}
+        <div class="card-body">
+          <h3 class="text-center">Chaves Cadastradas</h3>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-primary">
+                <th>Sala</th>
+                <th>Quantidade de Cópias</th>
+                <th style="width: 100px; text-align: center">Ações</th>
+              </thead>
+              <tbody>
+              {% for chave in object_list %}
+                <tr>
+                  <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modal{{chave.id}}">
+                          {{ chave.sala }} </a>
+                  </td>
+                  <td>{{ chave.quantidadeCopias }}</td>
+                  <td style="text-align: center">
+                    <a href="{% url 'chave_editar' chave.pk %}">
+                      <span class="icon">
+                       <i class="bi bi-pencil-fill"></i>
+                      </span>
+                    </a>
+                    <a href="{% url 'chave_apagar' chave.pk %}">
+                      <span class="icon">
+                        <i class="bi bi-trash-fill"></i>
+                      </span>
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

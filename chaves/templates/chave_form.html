@@ -1,0 +1,20 @@
+{% extends 'index.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+  <h3 class="text-center">Cadastro de Chaves</h3>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% if object.foto.url is not empty %}
+    <div class="col-2">
+      <img src="{{ object.foto.url }}" class="img-thumbnail" width="100" heigth="100" alt=""/>
+    </div>
+    {% endif %}
+    <div class="text-end">
+      {% bootstrap_button button_type="submit" content="Salvar" %}
+      <a href="{% url 'chaves' %}" class="btn btn-secondary text-white" type="buton">
+        <span class="text">Cancelar</span>
+      </a>
+    </div>
+  </form>
+{% endblock %}
