@@ -4,6 +4,7 @@
     class Pessoa{
         String Nome
         String e-mail
+        String foto
         bool permissão
     }
     class Servidor{
@@ -19,6 +20,7 @@
         String Anexo
     }
     class Chaves{
+        String Sala que Pertence
         int Quantidade de Cópias
         int ID
     }
