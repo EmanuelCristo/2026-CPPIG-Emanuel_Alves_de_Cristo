@@ -3,7 +3,8 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 from .forms import ChaveModelForm
-from .models import Chave
+from .models import Chave, CopiaChave
+
 
 class ChavesView(ListView):
     model = Chave
