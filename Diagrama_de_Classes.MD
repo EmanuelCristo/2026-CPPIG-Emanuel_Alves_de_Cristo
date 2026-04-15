@@ -1,11 +1,17 @@
-```mermaid
-
- classDiagram
+---
+config:
+  layout: elk
+  theme: neutral
+  look: neo
+---
+classDiagram
     class Pessoa{
         String Nome
         String e-mail
         String foto
         bool permissão
+        bool bloqueado
+        int Quantidade de Danos
     }
     class Servidor{
         Int SIAPE
@@ -19,29 +25,38 @@
         String Tipo
         String Anexo
     }
-    class Chaves{
-        String Sala que Pertence
-        int Quantidade de Cópias
-        int ID
+    class Chave{
+        String Sala
     }
     class Emprestimo{
-        date Data Empréstimo
-        date Data Devolução
-        date Data Reservada
+        date Data Retirada
+        data Data Devolução
         String Status
+    }
+    class Reserva{
+        date Inicio da Reserva
+        date Fim da Reserva
+        Strint Status
     }
     class Copia_Chave{
         int Numero da Copia
         int ID
         String Status
     }
+    class Porteiro{
+        String Nome
+        String e-mail
+    }
 
     Pessoa<|--Servidor
     Pessoa<|--Aluno
 
-    Salas "1" *-- "1" Chaves : Possui
-    Emprestimo "1..n" o-- "1" Pessoa: Pede
+    Salas "1" *-- "1" Chave : Possui
+    Reserva "1..n" o-- "1" Pessoa: Pede
+    Reserva "1..n" -- "0..n" Emprestimo: Gera
     Emprestimo "1" --* "1..n" Copia_Chave: Empresta
-    Chaves "1" *-- "1..n" Copia_Chave
-
-```
+    Pessoa "1" -- "1..n" Emprestimo: Realiza
+    Reserva "1" --* "1" Chave: Reserva
+    Chave "1" *-- "1..n" Copia_Chave
+    Porteiro "1" -- "1..n" Emprestimo: Confirma Entrega
+    Porteiro "1" -- "1..n" Emprestimo: Confirma Retirada
