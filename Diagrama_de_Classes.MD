@@ -1,9 +1,5 @@
----
-config:
-  layout: elk
-  theme: neutral
-  look: neo
----
+```mermaid
+
 classDiagram
     class Pessoa{
         String Nome
@@ -60,3 +56,5 @@ classDiagram
     Chave "1" *-- "1..n" Copia_Chave
     Porteiro "1" -- "1..n" Emprestimo: Confirma Entrega
     Porteiro "1" -- "1..n" Emprestimo: Confirma Retirada
+
+```
