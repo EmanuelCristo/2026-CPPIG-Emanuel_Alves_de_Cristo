@@ -31,4 +31,6 @@ urlpatterns = [
     path('', include('servidores.urls')),
     path('', include('alunos.urls')),
     path('', include('chaves.urls')),
+    path('', include('porteiros.urls')),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

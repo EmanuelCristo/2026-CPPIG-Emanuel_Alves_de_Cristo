@@ -41,7 +41,8 @@ INSTALLED_APPS = [
 
 INSTALLED_APPS += ['django_bootstrap5', 'stdimage',]
 
-INSTALLED_APPS += ['home', 'salas', 'servidores', 'alunos', 'chaves']
+INSTALLED_APPS += ['home', 'salas', 'servidores', 'alunos', 'chaves', 'porteiros']
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
