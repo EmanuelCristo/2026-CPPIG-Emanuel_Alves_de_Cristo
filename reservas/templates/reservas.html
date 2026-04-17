@@ -1,0 +1,55 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <form action="" method="GET">
+        <div class="form-group row p-3">
+          <label class="col-sm-2 col-from-label">Chave que Procura: </label>
+          <div class="col-sm-8">
+            <input class="form-control" type="text" name="buscar" value="{{ request.GET.buscar }}"
+                  placeholder="Digite o nome do Sala da Chave">
+          </div>
+          <div class="col-sm-2">
+            <button type="submit" class="btn btn-primary">
+              Buscar
+            </button>
+          </div>
+        </div>
+      </form>
+      {% if object_list %}
+        <div class="card-body">
+          <h3 class="text-center">Reservas Cadastradas</h3>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-primary">
+                <th>Chave</th>
+                <th>Titular</th>
+                <th>Inicio da Reserva</th>
+                <th>Fim da Reserva</th>
+                <th style="width: 100px; text-align: center">Ações</th>
+              </thead>
+              <tbody>
+                  <td style="text-align: center">
+                    <a href="{% url 'reserva_editar' reserva.pk %}">
+                      <span class="icon">
+                       <i class="bi bi-pencil-fill"></i>
+                      </span>
+                    </a>
+                    <a href="{% url 'reserva_apagar' reserva.pk %}">
+                      <span class="icon">
+                        <i class="bi bi-trash-fill"></i>
+                      </span>
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

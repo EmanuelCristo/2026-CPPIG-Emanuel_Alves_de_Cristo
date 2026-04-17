@@ -32,5 +32,6 @@ urlpatterns = [
     path('', include('alunos.urls')),
     path('', include('chaves.urls')),
     path('', include('porteiros.urls')),
+    path('', include('reservas.urls')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

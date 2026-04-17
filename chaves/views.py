@@ -6,13 +6,13 @@ from .forms import ChaveModelForm
 from .models import Chave, CopiaChave
 
 
-class ChavesView(ListView):
+class ChavesListView(ListView):
     model = Chave
     template_name = 'chaves.html'
 
     def get_queryset(self):
         buscar = self.request.GET.get('buscar')
-        qs = super(ChavesView, self).get_queryset()
+        qs = super(ChavesListView, self).get_queryset()
         if buscar:
             return qs.filter(nome__icontains=buscar)
         return qs
