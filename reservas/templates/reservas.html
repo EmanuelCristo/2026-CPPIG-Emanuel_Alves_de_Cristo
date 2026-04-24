@@ -31,6 +31,12 @@
                 <th style="width: 100px; text-align: center">Ações</th>
               </thead>
               <tbody>
+              {% for reserva in object_list %}
+                <tr>
+                  <td>{{ reserva.chave }}</td>
+                  <td>{{ reserva.titular }}</td>
+                  <td>{{ reserva.inicioReserva }}</td>
+                  <td>{{ reserva.fimReserva }}</td>
                   <td style="text-align: center">
                     <a href="{% url 'reserva_editar' reserva.pk %}">
                       <span class="icon">
