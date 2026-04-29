@@ -33,5 +33,6 @@ urlpatterns = [
     path('', include('chaves.urls')),
     path('', include('porteiros.urls')),
     path('', include('reservas.urls')),
+    path('', include('emprestimos.urls')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

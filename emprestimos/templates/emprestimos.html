@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+{% load django_bootstrap5 %}
+{% block content %}
+      <section class="section">
+        <div class="container">
+          <!--  <form action="" method="GET">
+                <div class="form-group row p-3">
+                    <label class="col-sm-2 col-form-label">Nome ou descrição do serviço: </label>
+                    <div class="col-sm-8">
+                        <input class="form-control" type="text" name="buscar" value=""
+                               placeholder="Digite o nome ou a descrição do serviço">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-primary">
+                            Buscar
+                        </button>
+                    </div>
+                </div>
+            </form>
+            -->
+
+                <div class="card-body">
+                    <h3 class="text-center">Emprestimos Realizados</h3>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-success">
+                                <th>Chave</th>
+                                <th>Titular</th>
+                                <th>Inicio do Emprestimo</th>
+                                <th>Fim do Emprestimo</th>
+                                <th style="width: 100px; text-align: center">Ações</th>
+                            </thead>
+                            <tbody>
+                                {% for emprestimo in object_list %}
+                                    <tr>
+                                        <td> {{ .chave }} </td>
+                                        <td> {{ .titular }}</td>
+                                        <td> {{ emprestimo.dataRetirada }} </td>
+                                        <td> {{ emprestimo.dataDevolucao }} </td>
+                                        <td style="text-align: center">
+
+                                            <a href="#">
+                                                <span class="icon">
+                                                    <i class="fas fa-edit"></i>
+                                                </span>
+                                            </a>
+                                            <a href="#">
+                                                <span class="icon">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+        </div>
+    </section>
+
+{% endblock %}
