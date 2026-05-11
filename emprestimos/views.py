@@ -4,33 +4,27 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView
 
-from emprestimos.forms import EmprestimoModelForm, ReservaEmprestimoInline
+from emprestimos.forms import EmprestimoModelForm, EmprestimoReservaInLine
 from emprestimos.models import Emprestimo
+
 
 class EmprestimosListView(ListView):
     model = Emprestimo
     template_name = 'emprestimos.html'
-
-  #  def get_queryset(self):
-   #     buscar = self.request.GET.get('buscar')
-  #      qs = super(EmprestimosView, self).get_queryset()
-   #
-   #     if buscar:
-    #        qs = qs.filter()
 
 class EmprestimoAddView(SuccessMessageMixin, CreateView):
     model = Emprestimo
     form_class = EmprestimoModelForm
     template_name = 'emprestimo_form.html'
     success_url = reverse_lazy('emprestimos')
-    sucess_message = 'Emprestimo criado com sucesso!'
+    success_message = 'Emprestimo criado com sucesso!'
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         if self.request.POST:
-            data['frm_inline'] = ReservaEmprestimoInline(self.request.POST)
+            data['frm_inline'] = EmprestimoReservaInLine(self.request.POST)
         else:
-            data['frm_inline'] = ReservaEmprestimoInline()
+            data['frm_inline'] = EmprestimoReservaInLine()
         return data
 
     def form_valid(self, form):
@@ -50,17 +44,18 @@ class EmprestimoUpdateView(SuccessMessageMixin, UpdateView):
     form_class = EmprestimoModelForm
     template_name = 'emprestimo_form.html'
     success_url = reverse_lazy('emprestimos')
-    sucess_message = 'Emprestimo atualizado!'
+    # Corrigido: A palavra estava "sucess_message"
+    success_message = 'Emprestimo alterado com sucesso!'
 
     def get_queryset(self):
-        return super().get_queryset().prefetche_related('reserva_emprestimo_emprestimo')
+        return super().get_queryset().prefetch_related('emprestimos_reserva_emprestimo')
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         if self.request.POST:
-            data['frm_inline'] = ReservaEmprestimoInline(self.request.POST, instance=self.object)
+            data['frm_inline'] = EmprestimoReservaInLine(self.request.POST, instance=self.object)
         else:
-            data['frm_inline'] = ReservaEmprestimoInline(instance=self.object)
+            data['frm_inline'] = EmprestimoReservaInLine(instance=self.object)
         return data
 
     def form_valid(self, form):
