@@ -1,11 +1,19 @@
 {% load static %}
 <header class="bg-primary bg-gradient shadow-sm">
   <div class="container-fluid p-0">
-    <div class="text-center">
-      <a class="text-white" style="text-decoration: none;" href="{% url 'index' %}">
-        <h2 class="mb-1 text-white">Sistemas de Chaves</h2>
-        <p class="text-white">Centro de Tecnologia UFSM</p>
-      </a>
+    <div class="row m-0 align-items-center">
+      <div class="col text-start p-3">
+        <a href="{% url 'index' %}">
+          <img width=208 src="{% static 'img/CT_Logo_B.png' %}" alt="Logo do Centro de Tecnologia">
+        </a>
+      </div>
+        <div class="col text-center">
+          <a class="text-white" style="text-decoration: none;" href="{% url 'index' %}">
+            <h2 class="mb-1 text-white">Sistemas de Chaves</h2>
+              <p class="text-white">Centro de Tecnologia UFSM</p>
+          </a>
+        </div>
+      <div class="col"></div>
     </div>
       <nav class="navbar navbar-expand-lg navbar-light bg-white border border-primary">
         <div class="container-fluid">
@@ -71,15 +79,5 @@
           </div>
         </div>
       </nav>
-      <!--
-             <a class="text-white" href="{% url 'servidores' %}">Listar Servidores</a>
-             <a class="text-white" href="{% url 'servidor_criar' %}">Cadastrar Servidores</a>
-             <a class="text-white" href="{% url 'alunos' %}">Listar Alunos</a>
-             <a class="text-white" href="{% url 'aluno_criar' %}">Cadastrar Alunos</a>
-             <a class="text-white" href="{% url 'porteiros' %}">Listar Porteiros</a>
-             <a class="text-white" href="{% url 'porteiro_criar' %}">Cadastrar Porteiros</a>
-             -->
-
   </div>
-
 </header>

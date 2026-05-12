@@ -1,9 +1,32 @@
 {% extends 'index.html' %}
 {% block content %}
 <section class="section p-2 bg-opacity-75">
-    <div class="container text-center">
-        <h1 class="display-1">Teste</h1>
-        <h1 class="display-4">Main</h1>
+    <div class="card bg-secondary text-white text-center">
+        <h3 class="card-header" id="data">xx/xx/xx</h3>
+        <h1 class="card-body" id="relogio">00:00:00</h1>
     </div>
 </section>
+
+<script>
+ function updateTime() {
+
+  const timeElement = document.getElementById('relogio');
+  const dataElement = document.getElementById('data');
+
+  const now = new Date();
+
+  const today = now.toLocaleDateString('pt-BR');
+  dataElement.textContent = today;
+
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+  const timeString = `${hours}:${minutes}:${seconds}`;
+  timeElement.textContent = timeString;
+}
+
+setInterval(updateTime, 1000);
+updateTime();
+
+</script>
 {% endblock %}
