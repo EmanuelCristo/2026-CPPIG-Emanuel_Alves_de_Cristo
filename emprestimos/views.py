@@ -7,7 +7,6 @@ from django.views.generic import CreateView, UpdateView, ListView
 from emprestimos.forms import EmprestimoModelForm, EmprestimoReservaInLine
 from emprestimos.models import Emprestimo
 
-
 class EmprestimosListView(ListView):
     model = Emprestimo
     template_name = 'emprestimos.html'
@@ -44,7 +43,6 @@ class EmprestimoUpdateView(SuccessMessageMixin, UpdateView):
     form_class = EmprestimoModelForm
     template_name = 'emprestimo_form.html'
     success_url = reverse_lazy('emprestimos')
-    # Corrigido: A palavra estava "sucess_message"
     success_message = 'Emprestimo alterado com sucesso!'
 
     def get_queryset(self):

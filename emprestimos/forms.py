@@ -5,7 +5,7 @@ from .models import Emprestimo, EmprestimoReserva
 class EmprestimoModelForm(forms.ModelForm):
     class Meta:
         model = Emprestimo
-        fields = ['dataRetirada', 'dataDevolucao']
+        fields = ['dataRetirada', 'porteiro']
 
 EmprestimoReservaInLine = inlineformset_factory(
     Emprestimo,
