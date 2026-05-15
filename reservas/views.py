@@ -15,7 +15,7 @@ class ReservasListView(ListView):
         buscar = self.request.GET.get('buscar')
         qs = super(ReservasListView, self).get_queryset()
         if buscar:
-            return qs.filter(nome__icontains=buscar)
+            return qs.filter(chave__icontains=buscar)
         return qs
 
 class ReservaAddView(SuccessMessageMixin, CreateView):

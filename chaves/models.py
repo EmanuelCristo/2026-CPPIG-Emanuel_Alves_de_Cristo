@@ -15,7 +15,7 @@ class Chave(models.Model):
         verbose_name_plural = 'Chaves'
 
     def __str__(self):
-        return str(self.sala)
+        return f"{self.sala} - Anexo: {self.sala.anexo} | Tipo: {self.sala.tipo}"
 
 class CopiaChave(models.Model):
     chave = models.ForeignKey(Chave, verbose_name='Chave', on_delete=models.CASCADE)

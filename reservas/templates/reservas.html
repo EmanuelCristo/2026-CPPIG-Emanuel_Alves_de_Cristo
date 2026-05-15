@@ -20,7 +20,7 @@
       </form>
       {% if object_list %}
         <div class="card-body">
-          <h3 class="text-center">Reservas Cadastradas</h3>
+          <h3 class="text-center">Reservas Agendadas</h3>
           <div class="table-responsive">
             <table class="table table-hover">
               <thead class="table-primary">
@@ -28,6 +28,7 @@
                 <th>Titular</th>
                 <th>Inicio da Reserva</th>
                 <th>Fim da Reserva</th>
+                <th>Status da Reserva</th>
                 <th style="width: 100px; text-align: center">Ações</th>
               </thead>
               <tbody>
@@ -37,7 +38,9 @@
                   <td>{{ reserva.titular }}</td>
                   <td>{{ reserva.inicioReserva }}</td>
                   <td>{{ reserva.fimReserva }}</td>
+                  <td>{{ reserva.get_status_display }}</td>
                   <td style="text-align: center">
+                    {% if reserva.status == 'A' %}
                     <a href="{% url 'reserva_editar' reserva.pk %}">
                       <span class="icon">
                        <i class="bi bi-pencil-fill"></i>
@@ -48,6 +51,14 @@
                         <i class="bi bi-trash-fill"></i>
                       </span>
                     </a>
+                    {% else %}
+                      <span class="icon">
+                       <i class="bi bi-pencil-fill"></i>
+                      </span>
+                      <span class="icon">
+                        <i class="bi bi-trash-fill"></i>
+                      </span>
+                    {% endif %}
                   </td>
                 </tr>
               {% endfor %}

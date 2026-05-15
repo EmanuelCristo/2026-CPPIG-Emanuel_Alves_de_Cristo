@@ -2,9 +2,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, ListView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView
 
-from emprestimos.forms import EmprestimoModelForm, EmprestimoReservaInLine
+from emprestimos.forms import EmprestimoModelForm, EmprestimoReservaInLine, EmprestimoTerminadoForm
 from emprestimos.models import Emprestimo
 
 class EmprestimosListView(ListView):
@@ -33,7 +33,13 @@ class EmprestimoAddView(SuccessMessageMixin, CreateView):
             if frm_inline.is_valid():
                 self.object = form.save()
                 frm_inline.instance = self.object
-                frm_inline.save()
+
+                vinculos_salvos = frm_inline.save()
+                for vinculo in vinculos_salvos:
+                    reserva = vinculo.reserva
+                    reserva.status = 'R'
+                    reserva.save()
+
                 return super().form_valid(form)
             else:
                 return self.render_to_response(self.get_context_data(form=form))
@@ -67,3 +73,21 @@ class EmprestimoUpdateView(SuccessMessageMixin, UpdateView):
                 return super().form_valid(form)
             else:
                 return self.render_to_response(self.get_context_data(form=form))
+
+class EmprestimoFinalizarUpdateView(SuccessMessageMixin, UpdateView):
+    model = Emprestimo
+    form_class = EmprestimoTerminadoForm
+    template_name = 'emprestimo_finalizar.html'
+    success_url = reverse_lazy('emprestimos')
+    success_message = 'Emprestimo concluido com sucesso!'
+
+class EmprestimosFinalizadosListView(ListView):
+    model = Emprestimo
+    template_name = 'emprestimos_finalizados.html'
+
+
+class EmprestimoDeleteView(SuccessMessageMixin, DeleteView):
+    model = Emprestimo
+    template_name = 'emprestimo_apagar.html'
+    success_url = reverse_lazy('emprestimos')
+    success_message = 'Emprestimo excluído com sucesso!'

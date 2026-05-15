@@ -7,9 +7,7 @@
             <h3 class="text-center mb-3">Formulário de Empréstimo</h3>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-
                 {% bootstrap_form form %}
-
                 <h4 class="mt-4">Reservas vinculadas ao empréstimo</h4>
                 <div class="card mb-3">
                     <div class="card-body">
