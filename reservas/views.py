@@ -38,3 +38,7 @@ class ReservaDeleteView(SuccessMessageMixin, DeleteView):
     template_name = 'reserva_apagar.html'
     success_url = reverse_lazy('reservas')
     sucess_message = 'Reserva apagada com sucesso'
+
+class ReservasFinalizadasListView(ListView):
+    model = Reserva
+    template_name = 'reservas_finalizadas.html'

@@ -5,66 +5,70 @@
     <div class="container">
         <div class="card-body">
             <h3 class="text-center mb-4">Empréstimos em Andamento</h3>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-primary">
-                        <th>Reservas Vinculadas</th>
-                        <th>Titular</th>
-                        <th>Início do Empréstimo</th>
-                        <th>Data do Fim da Reserva</th>
-                        <th style="width: 120px; text-align: center">Ações</th>
-                    </thead>
-                    <tbody>
-                        {% for emprestimo in object_list %}
-                            {% if emprestimo.status == 'A' %}
-                            <tr>
-                                <td>
-                                    {% for reserva in emprestimo.reservas.all %}
-                                        Chave {{ reserva.chave }}
+            <div class="card shadow m-3 col-md-12 mx-auto">
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-primary">
+                                <th>Reservas Vinculadas</th>
+                                <th>Titular</th>
+                                <th>Início do Empréstimo</th>
+                                <th>Data do Fim da Reserva</th>
+                                <th style="width: 120px; text-align: center">Ações</th>
+                            </thead>
+                            <tbody>
+                                {% for emprestimo in object_list %}
+                                    {% if emprestimo.status == 'A' %}
+                                    <tr>
+                                        <td>
+                                            {% for reserva in emprestimo.reservas.all %}
+                                                Chave {{ reserva.chave }}
+                                                {% if not forloop.last %}, {% endif %}
+                                            {% empty %}
+                                                <span class="text-muted">Nenhuma reserva</span>
+                                            {% endfor %}
+                                        </td>
+                                        <td>
+                                             {% for reserva in emprestimo.reservas.all %}
+                                                 {{ reserva.titular }}
+                                                {% if not forloop.last %}, {% endif %}
+                                            {% empty %}
+                                                <span class="text-muted">Nenhum titular</span>
+                                            {% endfor %}
+                                        </td>
+
+                                        <td>{{ emprestimo.dataRetirada }}</td>
+
+                                        <td>{% for reserva in emprestimo.reservas.all %}
+                                            {{ reserva.fimReserva }}
                                         {% if not forloop.last %}, {% endif %}
-                                    {% empty %}
-                                        <span class="text-muted">Nenhuma reserva</span>
-                                    {% endfor %}
-                                </td>
-                                <td>
-                                     {% for reserva in emprestimo.reservas.all %}
-                                         {{ reserva.titular }}
-                                        {% if not forloop.last %}, {% endif %}
-                                    {% empty %}
-                                        <span class="text-muted">Nenhum titular</span>
-                                    {% endfor %}
-                                </td>
+                                            {% endfor %}
+                                        </td>
 
-                                <td>{{ emprestimo.dataRetirada }}</td>
-
-                                <td>{% for reserva in emprestimo.reservas.all %}
-                                    {{ reserva.fimReserva }}
-                                {% if not forloop.last %}, {% endif %}
-                                    {% endfor %}
-                                </td>
-
-                                <td style="text-align: center">
-                                    <a href="{% url 'emprestimo_editar' emprestimo.pk %}" class="text-primary me-2" title="Editar">
-                                        <span class="icon">
-                                            <i class="bi bi-pencil-fill"></i>
-                                        </span>
-                                    </a>
-                                    <a href="{% url 'emprestimo_apagar' emprestimo.pk %}">
-                                        <span class="icon">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </span>
-                                    </a>
-                                    <a href="{% url 'emprestimo_finalizar' emprestimo.pk %}">
-                                        <span class="icon">
-                                            <i class="bi bi-check-circle-fill"></i>
-                                        </span>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                        <td style="text-align: center">
+                                            <a href="{% url 'emprestimo_editar' emprestimo.pk %}" class="text-primary me-2" title="Editar">
+                                                <span class="icon">
+                                                    <i class="bi bi-pencil-fill"></i>
+                                                </span>
+                                            </a>
+                                            <a href="{% url 'emprestimo_apagar' emprestimo.pk %}">
+                                                <span class="icon">
+                                                    <i class="bi bi-trash-fill"></i>
+                                                </span>
+                                            </a>
+                                            <a href="{% url 'emprestimo_finalizar' emprestimo.pk %}">
+                                                <span class="icon">
+                                                    <i class="bi bi-check-circle-fill"></i>
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

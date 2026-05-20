@@ -7,91 +7,94 @@
           <img width=208 src="{% static 'img/CT_Logo_B.png' %}" alt="Logo do Centro de Tecnologia">
         </a>
       </div>
-        <div class="col text-center">
-          <a class="text-white" style="text-decoration: none;" href="{% url 'index' %}">
-            <h2 class="mb-1 text-white">Sistemas de Chaves</h2>
-              <p class="text-white">Centro de Tecnologia UFSM</p>
-          </a>
-        </div>
+      <div class="col text-center">
+        <a class="text-white" style="text-decoration: none;" href="{% url 'index' %}">
+          <h2 class="mb-1 text-white">Sistemas de Chaves</h2>
+          <p class="text-white">Centro de Tecnologia UFSM</p>
+        </a>
+      </div>
       <div class="col text-white text-center">
-          <h3 class="card-header" id="data">xx/xx/xx</h3>
-          <h1 class="card-body" id="relogio">00:00:00</h1>
+        <h3 class="card-header" id="data">xx/xx/xx</h3>
+        <h1 class="card-body" id="relogio">00:00:00</h1>
       </div>
     </div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border border-primary">
-        <div class="container-fluid">
-          <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Salas
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'salas' %}">Listar Salas</a></li>
-                  <li><a class="dropdown-item" href="{% url 'sala_criar' %}">Cadastar Salas</a></li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Chaves
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'chaves' %}">Listar Chaves</a></li>
-                  <li><a class="dropdown-item" href="{% url 'chave_criar' %}">Cadastrar Chaves</a></li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Porteiros
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'porteiros' %}">Listar Porteiros</a></li>
-                  <li><a class="dropdown-item" href="{% url 'porteiro_criar' %}">Cadastrar Porteiros</a></li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Servidores
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'servidores' %}">Listar Servidores</a></li>
-                  <li><a class="dropdown-item" href="{% url 'servidor_criar' %}">Cadastrar Servidores</a></li>
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Alunos
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'alunos' %}">Listar Alunos</a></li>
-                  <li><a class="dropdown-item" href="{% url 'aluno_criar' %}">Cadastrar Alunos</a></li>
-                </ul>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  Emprestimos
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'emprestimos' %}">Listar Emprestimos em Andamento</a></li>
-                  <li><a class="dropdown-item" href="{% url 'emprestimos_finalizados' %}">Listar Emprestimos Finalizados</a></li>
-                  <li><a class="dropdown-item" href="{% url 'emprestimo_criar' %}">Cadastrar Emprestimos</a></li>
-                </ul>
-              </li>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'reservas' %}">Reservas</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'reserva_criar' %}">Realizar Reserva</a>
-              </li>
-            </ul>
-          </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border border-primary">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-door-open-fill"></i>Salas
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'salas' %}">Listar Salas</a></li>
+                <li><a class="dropdown-item" href="{% url 'sala_criar' %}">Cadastar Salas</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-key-fill"></i>Chaves
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'chaves' %}">Listar Chaves</a></li>
+                <li><a class="dropdown-item" href="{% url 'chave_criar' %}">Cadastrar Chaves</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{% static 'img/porteiro-icon.png' %}" style="width: 24px; height: 24px">Porteiros
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'porteiros' %}">Listar Porteiros</a></li>
+                <li><a class="dropdown-item" href="{% url 'porteiro_criar' %}">Cadastrar Porteiros</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-badge-fill"></i>Servidores
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'servidores' %}">Listar Servidores</a></li>
+                <li><a class="dropdown-item" href="{% url 'servidor_criar' %}">Cadastrar Servidores</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-workspace"></i>Alunos
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'alunos' %}">
+                  <i class="bi bi-door-closed-fill"></i><br>
+                  Listar Alunos</a></li>
+                <li><a class="dropdown-item" href="{% url 'aluno_criar' %}">Cadastrar Alunos</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-send-check-fill"></i>Reservas
+              </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'reservas' %}">Listar Reservas</a></li>
+              <li><a class="dropdown-item" href="{% url 'reservas_finalizadas' %}">Listar Reservas Finalizadas</a></li>
+                <li><a class="dropdown-item" href="{% url 'reserva_criar' %}">Realizar Reserva</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-calendar-check-fill"></i>Emprestimos
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'emprestimos' %}">Listar Emprestimos em Andamento</a></li>
+                <li><a class="dropdown-item" href="{% url 'emprestimos_finalizados' %}">Listar Emprestimos Finalizados</a></li>
+                <li><a class="dropdown-item" href="{% url 'emprestimo_criar' %}">Cadastrar Emprestimos</a></li>
+              </ul>
+            </li>
+          </ul>
         </div>
-      </nav>
+      </div>
+    </nav>
   </div>
 </header>

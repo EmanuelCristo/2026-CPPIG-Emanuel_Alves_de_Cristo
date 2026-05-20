@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 from django.db import models
 from django.db.models import Choices
+from django.utils import timezone
 
 from alunos.models import Aluno
 from chaves.models import Chave
@@ -23,5 +26,5 @@ class Reserva(models.Model):
         verbose_name_plural = 'Reservas'
 
     def __str__(self):
-        return f"{self.titular} - {self.chave} ( {self.inicioReserva} a {self.fimReserva} )"
+        return f"{self.titular} - {self.chave} ( {self.inicioReserva.strftime('%d/%m/%Y %H:%M')} a {self.fimReserva.strftime('%d/%m/%Y %H:%M')} )"
 

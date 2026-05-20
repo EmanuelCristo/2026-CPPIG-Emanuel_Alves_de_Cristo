@@ -19,64 +19,67 @@
         </div>
       </form>
       {% if object_list %}
-        <div class="card-body">
-          <h3 class="text-center">Porteiros Cadastrados</h3>
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead class="table-primary">
-                <th>Nome</th>
-                <th>Email</th>
-                <th style="width: 100px; text-align: center">Ações</th>
-              </thead>
-              <tbody>
-              {% for porteiro in object_list %}
-                <tr>
-                  <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modal{{porteiro.id}}">
-                          {{ porteiro.nome }} </a>
-                  </td>
-                  <td>{{ porteiro.email }}</td>
-                  <td style="text-align: center">
-                    <a href="{% url 'porteiro_editar' porteiro.pk %}">
-                      <span class="icon">
-                       <i class="bi bi-pencil-fill"></i>
-                      </span>
-                    </a>
-                    <a href="{% url 'porteiro_apagar' porteiro.pk %}">
-                      <span class="icon">
-                        <i class="bi bi-trash-fill"></i>
-                      </span>
-                    </a>
-                  </td>
-                  <div class="modal" tabindex="-1" id="modal{{porteiro.id}}">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Porteiro: {{ porteiro.nome }}</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                  aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body d-flex justify-content-center">
-                          <div>
-                            {% if porteiro.foto.url is not empty %}
-                            <img src="{{ porteiro.foto.url }}" class="img-thumbnail" width="100" height="100" alt=""/>
-                            {% endif %}
-                            <h6><strong>Email: </strong>{{ porteiro.email }}</h6>
+      <h3 class="text-center">Porteiros Cadastrados</h3>
+        <div class="card shadow m-3 col-md-12 mx-auto">
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-primary">
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th style="width: 100px; text-align: center">Ações</th>
+                </thead>
+                <tbody>
+                {% for porteiro in object_list %}
+                  <tr>
+                    <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modal{{porteiro.id}}">
+                            {{ porteiro.nome }} </a>
+                    </td>
+                    <td>{{ porteiro.email }}</td>
+                    <td style="text-align: center">
+                      <a href="{% url 'porteiro_editar' porteiro.pk %}">
+                        <span class="icon">
+                         <i class="bi bi-pencil-fill"></i>
+                        </span>
+                      </a>
+                      <a href="{% url 'porteiro_apagar' porteiro.pk %}">
+                        <span class="icon">
+                          <i class="bi bi-trash-fill"></i>
+                        </span>
+                      </a>
+                    </td>
+                    <div class="modal" tabindex="-1" id="modal{{porteiro.id}}">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Porteiro: {{ porteiro.nome }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                           </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Fechar
-                          </button>
+                          <div class="modal-body d-flex justify-content-center">
+                            <div>
+                              {% if porteiro.foto.url is not empty %}
+                              <img src="{{ porteiro.foto.url }}" class="img-thumbnail" width="100" height="100" alt=""/>
+                              {% endif %}
+                              <h6><strong>Email: </strong>{{ porteiro.email }}</h6>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                              Fechar
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
+      </div>
       {% endif %}
     </div>
   </section>

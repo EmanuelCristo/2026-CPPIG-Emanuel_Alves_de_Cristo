@@ -6,11 +6,17 @@ class EmprestimoModelForm(forms.ModelForm):
     class Meta:
         model = Emprestimo
         fields = ['dataRetirada', 'porteiroEntrega']
+        widgets = {
+            'dataRetirada': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
 
 class EmprestimoTerminadoForm(forms.ModelForm):
     class Meta:
         model = Emprestimo
         fields = ['dataDevolucao', 'porteiroDevolucao', 'status']
+        widgets = {
+            'dataDevolucao': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
 
 EmprestimoReservaInLine = inlineformset_factory(
     Emprestimo,
