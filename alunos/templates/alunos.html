@@ -25,6 +25,7 @@
           <div class="table-responsive">
             <table class="table table-hover">
               <thead class="table-primary">
+                <th>Foto de Perfil</th>
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Matrícula</th>
@@ -33,9 +34,10 @@
               <tbody>
               {% for aluno in object_list %}
                 <tr>
-                  <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modal{{aluno.id}}">
-                          {{ aluno.nome }} </a>
-                  </td>
+                  <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal{{aluno.id}}">
+                    <img src="{{ aluno.foto.url }}" class="img-thumbnail" width="50" height="50" alt=""/>
+                  </a></td>
+                  <td>{{ aluno.nome }}</td>
                   <td>{{ aluno.email }}</td>
                   <td>{{ aluno.matricula }}</td>
                   <td style="text-align: center">

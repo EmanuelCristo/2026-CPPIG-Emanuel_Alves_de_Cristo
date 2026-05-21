@@ -25,6 +25,7 @@
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead class="table-primary">
+                  <th>Foto de Perfil</th>
                   <th>Nome</th>
                   <th>Email</th>
                   <th>Siape</th>
@@ -34,9 +35,11 @@
                 <tbody>
                 {% for servidor in object_list %}
                   <tr>
-                    <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modal{{servidor.id}}">
-                            {{ servidor.nome }} </a>
-                    </td>
+                    <td>
+                      <a href="#" data-bs-toggle="modal" style="text-decoration: none;" data-bs-target="#modal{{servidor.id}}">
+                      <img src="{{ servidor.foto.url }}" class="img-thumbnail" width="50" height="50" alt=""/></a>
+                      </td>
+                    <td> {{ servidor.nome }}</td>
                     <td>{{ servidor.email }}</td>
                     <td>{{ servidor.siape }}</td>
                       <td>{{ servidor.funcao }}</td>

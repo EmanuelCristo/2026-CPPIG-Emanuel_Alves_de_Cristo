@@ -6,8 +6,8 @@ from stdimage import StdImageField
 from servidores.models import Pessoa
 
 class Aluno(Pessoa):
-    matricula = models.CharField('Matrícula', max_length=50, help_text='Matrícula do servidor')
-    foto = StdImageField('Foto', upload_to='alunos', delete_orphans=True, null=True, blank=True)
+    matricula = models.CharField('Matrícula', max_length=15, unique=True, help_text='Matrícula do aluno')
+    foto = StdImageField('Foto', upload_to='alunos', delete_orphans=True, null=True, blank=False)
 
     class Meta:
         verbose_name = 'Aluno'

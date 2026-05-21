@@ -13,9 +13,9 @@ class Pessoa(models.Model):
         return self.nome
 
 class Servidor(Pessoa):
-    siape = models.CharField('Siape', max_length=50, help_text='Siape do servidor')
+    siape = models.CharField('Siape', max_length=7, help_text='Siape do servidor', unique=True)
     funcao = models.CharField('Função', max_length= 100, help_text='Função do Servidor')
-    foto = StdImageField('Foto', upload_to='servidores', delete_orphans=True, null=True, blank=True)
+    foto = StdImageField('Foto', upload_to='servidores', delete_orphans=True, null=True, blank=False)
 
     class Meta:
         verbose_name = 'Servidor'

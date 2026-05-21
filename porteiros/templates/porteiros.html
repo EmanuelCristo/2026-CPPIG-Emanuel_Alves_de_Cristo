@@ -25,6 +25,7 @@
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead class="table-primary">
+                  <th>Foto de Perfil</th>
                   <th>Nome</th>
                   <th>Email</th>
                   <th style="width: 100px; text-align: center">Ações</th>
@@ -32,9 +33,10 @@
                 <tbody>
                 {% for porteiro in object_list %}
                   <tr>
-                    <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modal{{porteiro.id}}">
-                            {{ porteiro.nome }} </a>
-                    </td>
+                    <td><a href="#" data-bs-toggle="modal" data-bs-target="#modal{{porteiro.id}}">
+                      <img src="{{ porteiro.foto.url }}" class="img-thumbnail" width="50" height="50" alt=""/>
+                    </a></td>
+                    <td>{{ porteiro.nome }}</td>
                     <td>{{ porteiro.email }}</td>
                     <td style="text-align: center">
                       <a href="{% url 'porteiro_editar' porteiro.pk %}">

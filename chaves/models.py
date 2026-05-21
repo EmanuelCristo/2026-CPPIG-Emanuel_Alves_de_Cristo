@@ -6,7 +6,7 @@ import salas.models
 
 
 class Chave(models.Model):
-    sala = models.OneToOneField(salas.models.Sala, verbose_name='Sala', on_delete=models.CASCADE)
+    sala = models.OneToOneField(salas.models.Sala, verbose_name='Sala', unique=True, on_delete=models.CASCADE)
   #  sala = models.CharField('Sala', max_length=100, help_text='Sala que a chave pertence')
   #  foto = StdImageField('Foto', upload_to='alunos', delete_orphans=True, null=True, blank=True)
 
