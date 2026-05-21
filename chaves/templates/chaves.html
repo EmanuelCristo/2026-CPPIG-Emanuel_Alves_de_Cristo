@@ -32,9 +32,7 @@
                 <tbody>
                 {% for chave in object_list %}
                   <tr>
-                    <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modal{{chave.id}}">
-                            {{ chave.sala }} </a>
-                    </td>
+                    <td>{{ chave.sala }}</td>
                     <td>{{ chave.quantidadeCopias }}</td>
                     <td style="text-align: center">
                       <a href="{% url 'chave_editar' chave.pk %}">

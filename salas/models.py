@@ -24,4 +24,4 @@ class Sala(models.Model):
         verbose_name_plural = 'Salas'
 
     def __str__(self):
-        return self.nome
+        return f"{self.nome} - Anexo: {self.anexo} | Tipo: {self.tipo}"
