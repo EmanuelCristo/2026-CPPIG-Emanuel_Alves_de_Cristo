@@ -1,4 +1,5 @@
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
@@ -14,7 +15,7 @@ class ChavesListView(ListView):
         buscar = self.request.GET.get('buscar')
         qs = super(ChavesListView, self).get_queryset()
         if buscar:
-            return qs.filter(nome__icontains=buscar)
+            qs = qs.filter(Q(sala__nome__icontains=buscar)|Q(sala__anexo__icontains=buscar))
         return qs
 
 class ChaveAddView(SuccessMessageMixin,CreateView):

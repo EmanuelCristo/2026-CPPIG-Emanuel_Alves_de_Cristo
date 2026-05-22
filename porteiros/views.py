@@ -14,7 +14,7 @@ class PorteiroListView(ListView):
         buscar = self.request.GET.get('buscar')
         qs = super(PorteiroListView, self).get_queryset()
         if buscar:
-            return qs.filter(nome__icontains=buscar)
+            qs = qs.filter(nome__icontains=buscar)
         return qs
 
 class PorteiroAddView(SuccessMessageMixin, CreateView):

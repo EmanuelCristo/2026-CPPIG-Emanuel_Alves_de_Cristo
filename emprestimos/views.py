@@ -12,12 +12,6 @@ class EmprestimosListView(ListView):
     template_name = 'emprestimos.html'
 
 
-    def get_queryset(self):
-        buscar = self.request.GET.get('buscar')
-        qs = super(EmprestimosListView, self).get_queryset()
-
-        if buscar:
-            qs = qs.filter
 
 class EmprestimoAddView(SuccessMessageMixin, CreateView):
     model = Emprestimo

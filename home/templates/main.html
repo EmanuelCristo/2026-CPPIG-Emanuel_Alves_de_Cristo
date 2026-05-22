@@ -1,6 +1,62 @@
 {% extends 'index.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
 {% block content %}
-<section class="section p-2 bg-opacity-75">
-
-</section>
+  <section class="section">
+    <div class="container">
+      {% if object_list %}
+      <h3 class="text-center">Reservas de Hoje</h3>
+      <div class="card shadow m-3 col-md-12 mx-auto">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-primary">
+                  <th>Chave</th>
+                  <th>Titular</th>
+                  <th>Inicio da Reserva</th>
+                  <th>Fim da Reserva</th>
+                  <th>Status da Reserva</th>
+                  <th style="width: 100px; text-align: center">Ações</th>
+                </thead>
+                <tbody>
+                {% for reserva in object_list %}
+                  <tr>
+                    <td>{{ reserva.chave }}</td>
+                    <td>{{ reserva.titular }}</td>
+                    <td>{{ reserva.inicioReserva }}</td>
+                    <td>{{ reserva.fimReserva }}</td>
+                    <td>{{ reserva.get_status_display }}</td>
+                    <td style="text-align: center">
+                      {% if reserva.status == 'A' %}
+                      <a href="{% url 'reserva_editar' reserva.pk %}">
+                        <span class="icon">
+                         <i class="bi bi-pencil-fill"></i>
+                        </span>
+                      </a>
+                      <a href="{% url 'reserva_apagar' reserva.pk %}">
+                        <span class="icon">
+                          <i class="bi bi-trash-fill"></i>
+                        </span>
+                      </a>
+                      {% else %}
+                        <span class="icon">
+                         <i class="bi bi-pencil-fill"></i>
+                        </span>
+                        <span class="icon">
+                          <i class="bi bi-trash-fill"></i>
+                        </span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock %}
