@@ -28,6 +28,7 @@
                   <th>Foto de Perfil</th>
                   <th>Nome</th>
                   <th>Email</th>
+                  <th>CPF</th>
                   <th style="width: 100px; text-align: center">Ações</th>
                 </thead>
                 <tbody>
@@ -38,6 +39,7 @@
                     </a></td>
                     <td>{{ porteiro.nome }}</td>
                     <td>{{ porteiro.email }}</td>
+                    <td>{{ porteiro.cpf }}</td>
                     <td style="text-align: center">
                       <a href="{% url 'porteiro_editar' porteiro.pk %}">
                         <span class="icon">
