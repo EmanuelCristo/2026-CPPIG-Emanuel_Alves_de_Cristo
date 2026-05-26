@@ -4,49 +4,34 @@
 {% block content %}
   <section class="section">
     <div class="container">
-      <form action="" method="GET">
-        <div class="form-group row p-3">
-          <label class="col-sm-2 col-from-label">Chave da Sala ou Anexo: </label>
-          <div class="col-sm-8">
-            <input class="form-control" type="text" name="buscar" value="{{ request.GET.buscar }}"
-                  placeholder="Digite o nome do Sala da Chave">
-          </div>
-          <div class="col-sm-2">
-            <button type="submit" class="btn btn-primary">
-              Buscar
-            </button>
-          </div>
-        </div>
-      </form>
       {% if object_list %}
-      <h3 class="text-center">Chaves Cadastradas</h3>
+      <h3 class="text-center">Copias das Chaves</h3>
         <div class="card shadow m-3 col-md-12 mx-auto">
           <div class="card">
             <div class="table-responsive">
               <table class="table table-hover">
                 <thead class="table-primary">
                   <th>Sala</th>
-                  <th>Quantidade de Cópias</th>
+                  <th>Número da Cópia</th>
+                  <th>Status</th>
                   <th style="width: 100px; text-align: center">Ações</th>
                 </thead>
                 <tbody>
-                {% for chave in object_list %}
+                {% for copiachave in object_list %}
                   <tr>
-                    <td>{{ chave.sala }}</td>
-                    <td>{{ chave.quantidadeCopias }}</td>
+                    <td>{{ copiachave.chave.sala }}</td>
+                    <td>{{ copiachave.numeroCopia }}</td>
+                    <td>{{ copiachave.get_status_display }}</td>
                     <td style="text-align: center">
-                      <a href="{% url 'chave_editar' chave.pk %}">
+                      <a href="{% url 'copia_editar' copiachave.pk %}">
                         <span class="icon">
                          <i class="bi bi-pencil-fill"></i>
                         </span>
                       </a>
-                      <a href="{% url 'chave_apagar' chave.pk %}">
+                      <a href="{% url 'copia_apagar' copiachave.pk %}">
                         <span class="icon">
                           <i class="bi bi-trash-fill"></i>
                         </span>
-                      </a>
-                      <a href="{% url 'chave_copias' chave.pk %}">
-                        <button>Listar Copias</button>
                       </a>
                     </td>
                   </tr>
@@ -59,10 +44,10 @@
       {% else %}
       <div class="card text-center shadow m-3 col-md-12 mx-auto">
         <div class="card header">
-          <h1 class="card-tittle">Nenhuma Chave Cadastrada</h1>
+          <h1 class="card-tittle">Nenhuma Cópia Cadastrada</h1>
         </div>
         <div class="card-body">
-          <a class="btn btn-primary" role="button" href="{%  url 'chave_criar' %}">Cadastrar nova chave</a>
+          <a class="btn btn-primary" role="button" href="{%  url 'chaves' %}">Listar chaves</a>
         </div>
       </div>
       {% endif %}

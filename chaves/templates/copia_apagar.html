@@ -4,10 +4,10 @@
     <div class="card shadow m-3 col-md-6 mx-auto">
         <div class="card-body">
             <div class="row">
-              <h3 class="text-center">Dados da Chave</h3>
-              <p class="p-2 mt-2"><strong>chave: </strong>{{ object.chave }}</p>
+              <h3 class="text-center">Dados da Cópia</h3>
+              <p class="p-2 mt-2"><strong>Sala: </strong>{{ object.chave.sala }}</p>
               <p class="p-2 mt-2"><strong>Número da Cópia: </strong>{{ object.numeroCopia }}</p>
-                <p class="p-2 mt-2">Corfimar exclusão da Chave: <strong>{{ object.sala }}</strong>?</p>
+                <p class="p-2 mt-2">Corfimar exclusão da Cópia: <strong>{{ object.numeroCopia }} </strong>da chave <strong>{{ object.chave.sala }}</strong>?</p>
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% bootstrap_form form %}
