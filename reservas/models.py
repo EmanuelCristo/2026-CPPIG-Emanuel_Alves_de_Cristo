@@ -26,5 +26,5 @@ class Reserva(models.Model):
         verbose_name_plural = 'Reservas'
 
     def __str__(self):
-        return f"{self.titular} - {self.chave} ( {self.inicioReserva.strftime('%d/%m/%Y %H:%M')} a {self.fimReserva.strftime('%d/%m/%Y %H:%M')} )"
+        return f"{self.titular} - {self.chave} ( {timezone.localtime(self.inicioReserva).strftime('%d/%m/%Y %H:%M')} a {timezone.localtime(self.fimReserva).strftime('%d/%m/%Y %H:%M')} )"
 

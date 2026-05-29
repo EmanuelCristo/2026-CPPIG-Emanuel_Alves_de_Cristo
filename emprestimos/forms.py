@@ -1,4 +1,7 @@
+from datetime import timezone
+
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 from .models import Emprestimo, EmprestimoReserva
 
@@ -9,6 +12,10 @@ class EmprestimoModelForm(forms.ModelForm):
         widgets = {
             'dataRetirada': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+
 
 class EmprestimoTerminadoForm(forms.ModelForm):
     class Meta:

@@ -6,7 +6,9 @@
             <div class="row">
                 <h3 class="text-center">Dados do Emprestimo</h3>
                 <p class="p-2 mt-2"><strong>Horário: </strong>{{ object.dataRetirada }}</p>
-                <p class="p-2 mt-2"><strong>Titular: </strong>{{ object.titular }}</p>
+                {% for reserva in emprestimo.reservas.all %}
+                <p class="p-2 mt-2"><strong>Titular: </strong>{{ reserva.titular }}</p>
+                {% endfor %}
                 <p class="p-2 mt-2">Confirma a exclusão do emprestimo?</p>
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}

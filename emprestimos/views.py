@@ -12,7 +12,6 @@ class EmprestimosListView(ListView):
     template_name = 'emprestimos.html'
 
 
-
 class EmprestimoAddView(SuccessMessageMixin, CreateView):
     model = Emprestimo
     form_class = EmprestimoModelForm
@@ -86,7 +85,6 @@ class EmprestimoFinalizarUpdateView(SuccessMessageMixin, UpdateView):
 class EmprestimosFinalizadosListView(ListView):
     model = Emprestimo
     template_name = 'emprestimos_finalizados.html'
-
 
 class EmprestimoDeleteView(SuccessMessageMixin, DeleteView):
     model = Emprestimo
