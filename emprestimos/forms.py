@@ -30,5 +30,5 @@ EmprestimoReservaInLine = inlineformset_factory(
     EmprestimoReserva,
     fields=('reserva',),
     extra=1,
-    can_delete=True
+    can_delete=True,
 )

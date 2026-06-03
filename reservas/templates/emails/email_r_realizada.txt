@@ -1,0 +1,17 @@
+Olá <strong>{{titular}}!
+Estamos enviando este e-mail para comunicar que sua reserva foi realizada.
+
+Dados da Reserva
+Chave Reservada: {{ chave }}
+Horário de Inicio: {{ inicioReserva }}
+Horário de Fim: {{ fimReserva }}
+
+Informações Importantes
+
+Em caso de atraso de 15 minutos para a retirada da chave, sua reserva será cancelada automáticamente pelo sistema.
+
+Não é possível retirar a chave caso tenha algum item com entrega em atraso.
+
+Caso não ocorra a devolução dentro de 24 horas o sistema irá enviar um alertá para seu email.
+
+Projeto Chaves
