@@ -37,13 +37,14 @@ class EmprestimoAddView(SuccessMessageMixin, CreateView):
 
                 vinculos_salvos = frm_inline.save()
                 for vinculo in vinculos_salvos:
-                    reserva = vinculo.reserva
-                    reserva.status = 'R'
-                    reserva.save()
+                    if hasattr(vinculo, 'reserva'):
+                        reserva = vinculo.reserva
+                        reserva.status = 'R'
+                        reserva.save()
 
                 return super().form_valid(form)
             else:
-                return self.render_to_response(self.get_context_data(form=form))
+                return self.render_to_response(self.get_context_data(form=form, frm_inline=frm_inline))
 
 class EmprestimoUpdateView(SuccessMessageMixin, UpdateView):
     model = Emprestimo

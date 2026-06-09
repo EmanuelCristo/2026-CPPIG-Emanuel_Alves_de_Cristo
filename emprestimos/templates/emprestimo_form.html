@@ -27,7 +27,7 @@
                                     {% endfor %}
                                     <td>{% bootstrap_field campo.reserva show_label=False %}</td>
                                     <td class="text-center text-danger">
-                                        {% if campo.instance.pk %}
+                                        {% if frm_inline.can_delete %}
                                             {{ campo.DELETE }}
                                         {% endif %}
                                     </td>

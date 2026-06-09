@@ -2,7 +2,7 @@ from datetime import timezone
 
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, BaseInlineFormSet
 from .models import Emprestimo, EmprestimoReserva
 
 class EmprestimoModelForm(forms.ModelForm):
@@ -13,9 +13,21 @@ class EmprestimoModelForm(forms.ModelForm):
             'dataRetirada': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
 
+class EmprestimoReservaFormSet(BaseInlineFormSet):
     def clean(self):
         cleaned_data = super().clean()
 
+        reservas_validas = 0
+
+        for form in self.forms:
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                if form.cleaned_data.get('reserva'):
+                    reservas_validas += 1
+
+        if reservas_validas == 0:
+            raise ValidationError(
+                f"Selecione pelo menos uma reserva para fazer o empréstimo"
+            )
 
 class EmprestimoTerminadoForm(forms.ModelForm):
     class Meta:
@@ -28,7 +40,8 @@ class EmprestimoTerminadoForm(forms.ModelForm):
 EmprestimoReservaInLine = inlineformset_factory(
     Emprestimo,
     EmprestimoReserva,
-    fields=('reserva',),
+    formset=EmprestimoReservaFormSet,
+    fields=('reserva', ),
     extra=1,
     can_delete=True,
 )
