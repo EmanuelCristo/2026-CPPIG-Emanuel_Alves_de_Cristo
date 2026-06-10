@@ -32,7 +32,7 @@ class ReservaModelForm(forms.ModelForm):
          if inicio < agora:
              raise ValidationError("O início da reserva não pode ser no passsado.")
 
-         if horario_inicio < time(8, 0) or horario_inicio > time(21, 30):
+    #  if horario_inicio < time(8, 0) or horario_inicio > time(21, 30):
              raise ValidationError("As reservas só podem ser iniciadas entre as 8:00 e as 21:30")
 
          return inicio
