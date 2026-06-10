@@ -17,7 +17,7 @@ class ReservasListView(ListView):
 
     def get_queryset(self):
         buscar = self.request.GET.get('buscar')
-        qs = super(ReservasListView, self).get_queryset()
+        qs = super(ReservasListView, self).get_queryset().filter(status='A')
         if buscar:
             qs = qs.filter(Q(chave__sala__nome__icontains=buscar)|Q(titular__nome__icontains=buscar))
         return qs
@@ -67,4 +67,11 @@ class ReservaDeleteView(SuccessMessageMixin, DeleteView):
 class ReservasFinalizadasListView(ListView):
     model = Reserva
     template_name = 'reservas_finalizadas.html'
+
+    def get_queryset(self):
+        buscar = self.request.GET.get('buscar')
+        qs = super(ReservasFinalizadasListView, self).get_queryset()
+        if buscar:
+            qs = qs.filter(Q(chave__sala__nome__icontains=buscar)|Q(titular__nome__icontains=buscar))
+        return qs
 

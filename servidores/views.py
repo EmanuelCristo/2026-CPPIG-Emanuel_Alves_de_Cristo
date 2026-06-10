@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.db.models import ProtectedError
+from django.shortcuts import render, redirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -37,3 +39,14 @@ class ServidorDeleteView(SuccessMessageMixin,DeleteView):
     template_name = 'servidor_apagar.html'
     success_url = reverse_lazy('servidores')
     success_message = 'Servidor apagado com sucesso!'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, f"O servidor {self.object} não pode ser excluido. "
+                                    f"Esse servidor está registrado em uma reserva.")
+
+        return redirect(success_url)

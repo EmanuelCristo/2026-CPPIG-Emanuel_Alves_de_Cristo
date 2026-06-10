@@ -1,5 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView
@@ -11,6 +12,12 @@ class EmprestimosListView(ListView):
     model = Emprestimo
     template_name = 'emprestimos.html'
 
+    def get_queryset(self):
+        qs = super(EmprestimosListView, self).get_queryset().filter(status='A')
+        buscar = self.request.GET.get('buscar')
+        if buscar:
+            qs = qs.filter(Q(reservas__titular__nome__icontains=buscar)|Q(reservas__chave__sala__nome=buscar))
+        return qs
 
 class EmprestimoAddView(SuccessMessageMixin, CreateView):
     model = Emprestimo
@@ -86,6 +93,13 @@ class EmprestimoFinalizarUpdateView(SuccessMessageMixin, UpdateView):
 class EmprestimosFinalizadosListView(ListView):
     model = Emprestimo
     template_name = 'emprestimos_finalizados.html'
+
+    def get_queryset(self):
+        qs = super(EmprestimosFinalizadosListView, self).get_queryset()
+        buscar = self.request.GET.get('buscar')
+        if buscar:
+            qs = qs.filter(Q(reservas__titular__nome__icontains=buscar)|Q(reservas__chave__sala__nome=buscar))
+        return qs
 
 class EmprestimoDeleteView(SuccessMessageMixin, DeleteView):
     model = Emprestimo

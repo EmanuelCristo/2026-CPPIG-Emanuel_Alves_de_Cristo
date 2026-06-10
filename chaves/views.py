@@ -1,5 +1,7 @@
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import Q
+from django.db.models import Q, ProtectedError
+from django.shortcuts import redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
@@ -37,6 +39,17 @@ class ChaveDeleteView(SuccessMessageMixin,DeleteView):
     template_name = 'chave_apagar.html'
     success_url = reverse_lazy('chaves')
     success_message = 'Chave apagada com sucesso!'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, f"A chave {self.object} não pode ser excluida. "
+                                    f"Essa chave está registrada em uma reserva.")
+
+        return redirect(success_url)
 
 class CopiasChaveListView(SuccessMessageMixin,ListView):
     model = CopiaChave

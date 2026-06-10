@@ -3,6 +3,8 @@ from datetime import timezone
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory, BaseInlineFormSet
+
+from reservas.models import Reserva
 from .models import Emprestimo, EmprestimoReserva
 
 class EmprestimoModelForm(forms.ModelForm):
@@ -14,6 +16,17 @@ class EmprestimoModelForm(forms.ModelForm):
         }
 
 class EmprestimoReservaFormSet(BaseInlineFormSet):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.forms:
+            if 'reserva' in form.fields:
+                if form.instance and form.instance.pk and form.instance.reserva:
+                    form.fields['reserva'].queryset = Reserva.objects.filter(
+                        pk=form.instance.reserva_id
+                    )
+                else:
+                    form.fields['reserva'].queryset = Reserva.objects.filter(status='A')
+
     def clean(self):
         cleaned_data = super().clean()
 

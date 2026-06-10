@@ -15,10 +15,10 @@ SITUACAO_OPCOES = (
     )
 
 class Reserva(models.Model):
-    chave = models.ForeignKey(Chave, verbose_name='Chave', on_delete=models.CASCADE, help_text='Chave que deseja reservar')
+    chave = models.ForeignKey(Chave, verbose_name='Chave', on_delete=models.PROTECT, help_text='Chave que deseja reservar')
     inicioReserva = models.DateTimeField(verbose_name='Inicio da Reserva', help_text='Data de inicio da reserva')
     fimReserva = models.DateTimeField(verbose_name='Fim da Reserva', help_text='Data de fim da reserva')
-    titular = models.ForeignKey(Servidor, verbose_name='Titular' ,on_delete=models.CASCADE, help_text='Titular da reserva')
+    titular = models.ForeignKey(Servidor, verbose_name='Titular' ,on_delete=models.PROTECT, help_text='Titular da reserva')
     status = models.CharField('Status', max_length=1, help_text='Status da reserva', choices=SITUACAO_OPCOES ,default='A')
 
     class Meta:
