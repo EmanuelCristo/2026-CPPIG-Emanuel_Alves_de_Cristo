@@ -24,6 +24,7 @@ class Reserva(models.Model):
     class Meta:
         verbose_name = 'Reserva'
         verbose_name_plural = 'Reservas'
+        ordering = ['inicioReserva']
 
     def __str__(self):
         return f"{self.titular} - {self.chave} ( {timezone.localtime(self.inicioReserva).strftime('%d/%m/%Y %H:%M')} a {timezone.localtime(self.fimReserva).strftime('%d/%m/%Y %H:%M')} )"

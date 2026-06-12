@@ -16,6 +16,7 @@ class Chave(models.Model):
     class Meta:
         verbose_name = 'Chave'
         verbose_name_plural = 'Chaves'
+        ordering = ["sala__nome"]
 
     def save(self, *args, **kwargs):
         if self.pk is None:

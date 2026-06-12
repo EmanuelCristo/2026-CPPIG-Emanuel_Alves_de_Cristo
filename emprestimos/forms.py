@@ -11,9 +11,19 @@ class EmprestimoModelForm(forms.ModelForm):
     class Meta:
         model = Emprestimo
         fields = ['dataRetirada', 'porteiroEntrega']
+        input_formats = ['%Y-%m-%dT%H:%M', '%Y-%m-%d %H:%M'],
         widgets = {
-            'dataRetirada': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'dataRetirada': forms.DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local'}),
         }
+
+    # def __init__(self, *args, **kwargs):
+    #     buscar_pessoa = kwargs.pop('buscar_pessoa', None)
+    #     super().__init__(*args, **kwargs)
+    #
+    #     if buscar_pessoa:
+    #         self.fields['titularEmprestimo'].queryset = self.fields['titularEmprestimo'].queryset.filter(
+    #             nome__icontains=buscar_pessoa
+    #         )
 
     def clean_inicioEmprestimo(self):
         data_retirada = self.cleaned_data.get('dataRetirada')
@@ -45,33 +55,38 @@ class EmprestimoReservaFormSet(BaseInlineFormSet):
         for form in self.forms:
             if 'reserva' in form.fields:
                 if form.instance and form.instance.pk and form.instance.reserva:
+                    print(form.instance.reserva.titular)
                     form.fields['reserva'].queryset = Reserva.objects.filter(
                         pk=form.instance.reserva_id
                     )
                 else:
                     form.fields['reserva'].queryset = Reserva.objects.filter(status='A')
 
-    def clean(self):
-        super().clean()
-
-        reservas_validas = 0
-        data_retirada = self.instance.dataRetirada if self.instance and self.instance.pk else None
-
-        for form in self.forms:
-            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
-                reserva = form.cleaned_data.get('reserva')
-                if reserva:
-                    reservas_validas += 1
-
-                    if data_retirada and data_retirada < reserva.inicioReserva:
-                        raise ValidationError(
-                            f"A data de retirada não pode ser antes do início da reserva"
-                        )
-
-        if reservas_validas == 0:
-            raise ValidationError(
-                "Selecione pelo menos uma reserva para fazer o empréstimo"
-            )
+    # def clean(self):
+    #     super().clean()
+    #
+    #     reservas_validas = 0
+    #     data_retirada = self.instance.dataRetirada if self.instance and self.instance.pk else None
+    #
+    #     for form in self.forms:
+    #         if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+    #             reserva = form.cleaned_data.get('reserva')
+    #             # titular_emprestimo = form.cleaned_data.get('reserva__titular')
+    #             if reserva:
+    #                 reservas_validas += 1
+    #
+    #                 if data_retirada and data_retirada < reserva.inicioReserva:
+    #                     raise ValidationError(
+    #                         f"A data de retirada não pode ser antes do início da reserva"
+    #                     )
+    #
+    #                 # form.fields['reserva'].queryset = Reserva.objects.filter(titular=titular_emprestimo)
+    #
+    #
+    #     if reservas_validas == 0:
+    #         raise ValidationError(
+    #             "Selecione pelo menos uma reserva para fazer o empréstimo"
+    #         )
 
 class EmprestimoTerminadoForm(forms.ModelForm):
     class Meta:

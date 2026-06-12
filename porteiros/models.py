@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.functions import Upper
 from stdimage import StdImageField
 
 
@@ -11,6 +12,7 @@ class Porteiro(models.Model):
     class Meta:
         verbose_name = 'porteiros'
         verbose_name_plural = 'Porteiros'
+        ordering = [Upper('nome')]
 
     def __str__(self):
        return self.nome

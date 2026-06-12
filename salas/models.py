@@ -1,6 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
-
+from django.db.models.functions import Upper
 
 ESCOLHER_ANEXO = (
     ('CT', 'Prédio Principal - Centro de Tecnologia'),
@@ -22,6 +22,7 @@ class Sala(models.Model):
     class Meta:
         verbose_name = 'Sala'
         verbose_name_plural = 'Salas'
+        ordering = ['nome']
 
     def __str__(self):
         return f"{self.nome} - Anexo: {self.anexo} | Tipo: {self.tipo}"

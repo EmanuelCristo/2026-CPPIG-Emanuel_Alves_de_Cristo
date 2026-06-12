@@ -37,7 +37,7 @@
                                         <td>
                                             {% for reserva in emprestimo.reservas.all %}
                                                 Chave {{ reserva.chave }}
-                                                {% if not forloop.last %}, {% endif %}
+                                                {% if not forloop.last %}<br> {% endif %}
                                             {% empty %}
                                                 <span class="text-muted">Nenhuma reserva</span>
                                             {% endfor %}
@@ -45,7 +45,7 @@
                                         <td>
                                              {% for reserva in emprestimo.reservas.all %}
                                                  {{ reserva.titular }}
-                                                {% if not forloop.last %}, {% endif %}
+                                                {% if not forloop.last %},<br> {% endif %}
                                             {% empty %}
                                                 <span class="text-muted">Nenhum titular</span>
                                             {% endfor %}
@@ -55,7 +55,7 @@
 
                                         <td>{% for reserva in emprestimo.reservas.all %}
                                             {{ reserva.fimReserva }}
-                                        {% if not forloop.last %}, {% endif %}
+                                        {% if not forloop.last %},<br> {% endif %}
                                             {% endfor %}
                                         </td>
 
