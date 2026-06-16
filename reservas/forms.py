@@ -58,8 +58,6 @@ class ReservaModelForm(forms.ModelForm):
             })
 
         if inicio and fim and chave_selecionada:
-            total_copias_existentes = chave_selecionada.copiachave_set.filter(status='D').count()
-
             reservas_concorrentes = Reserva.objects.filter(
                 chave=chave_selecionada,
                 inicioReserva__lt=fim,
@@ -71,10 +69,17 @@ class ReservaModelForm(forms.ModelForm):
 
             quantidade_reservas_ativas = reservas_concorrentes.count()
 
-            if quantidade_reservas_ativas >= total_copias_existentes:
-                raise ValidationError(
+            if chave_selecionada.sala.tipo == 'Sala de aula':
+                limite_disponivel = 1
+                mensagem_erro = "Esta chave já está reservada para esse horário"
+            else:
+                total_copias_existentes = chave_selecionada.copiachave_set.filter(status='D').count()
+                limite_disponivel = total_copias_existentes
+                mensagem_erro = (
                     f"Não há mais cópias disponíveis para este horário. "
                     f"Todas as {total_copias_existentes} cópias já foram reservadas por outras pessoas."
                 )
+            if quantidade_reservas_ativas >= limite_disponivel:
+                raise ValidationError(mensagem_erro)
 
         return cleaned_data

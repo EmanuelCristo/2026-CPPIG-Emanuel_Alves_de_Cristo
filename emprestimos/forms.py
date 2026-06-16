@@ -16,15 +16,6 @@ class EmprestimoModelForm(forms.ModelForm):
             'dataRetirada': forms.DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local'}),
         }
 
-    # def __init__(self, *args, **kwargs):
-    #     buscar_pessoa = kwargs.pop('buscar_pessoa', None)
-    #     super().__init__(*args, **kwargs)
-    #
-    #     if buscar_pessoa:
-    #         self.fields['titularEmprestimo'].queryset = self.fields['titularEmprestimo'].queryset.filter(
-    #             nome__icontains=buscar_pessoa
-    #         )
-
     def clean_inicioEmprestimo(self):
         data_retirada = self.cleaned_data.get('dataRetirada')
         agora = timezone.now()
