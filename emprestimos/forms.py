@@ -51,16 +51,37 @@ class EmprestimoModelForm(forms.ModelForm):
 
 class EmprestimoReservaFormSet(BaseInlineFormSet):
     def __init__(self, *args, **kwargs):
+        buscar_pessoa = kwargs.pop('buscar_pessoa', None)
         super().__init__(*args, **kwargs)
+
+        if self.instance and self.instance.pk:
+            primeira_reserva = self.instance.reservas.first()
+
+            if primeira_reserva and primeira_reserva.titular:
+                queryset_final = Reserva.objects.filter(
+                    status='A',
+                    titular=primeira_reserva.titular,
+                )
+            else:
+                queryset_final = Reserva.objects.none()
+
+        else:
+            if buscar_pessoa:
+                queryset_final = Reserva.objects.filter(
+                    status='A',
+                    titular__nome__icontains=buscar_pessoa
+                )
+            else:
+                queryset_final = Reserva.objects.none()
+
         for form in self.forms:
             if 'reserva' in form.fields:
-                if form.instance and form.instance.pk and form.instance.reserva:
-                    print(form.instance.reserva.titular)
+                if form.instance and form.instance.pk and getattr(form.instance, 'reserva', None):
                     form.fields['reserva'].queryset = Reserva.objects.filter(
                         pk=form.instance.reserva_id
                     )
                 else:
-                    form.fields['reserva'].queryset = Reserva.objects.filter(status='A')
+                    form.fields['reserva'].queryset = queryset_final
 
     # def clean(self):
     #     super().clean()

@@ -26,17 +26,19 @@ class EmprestimoAddView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('emprestimos')
     success_message = 'Emprestimo criado com sucesso!'
 
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs['buscar_pessoa'] = self.request.GET.get('buscar_pessoa', None)
-    #     return kwargs
-
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
+        buscar_pessoa = self.request.GET.get('buscar_pessoa', None)
+
         if self.request.POST:
-            data['frm_inline'] = EmprestimoReservaInLine(self.request.POST)
+            data['frm_inline'] = EmprestimoReservaInLine(
+                self.request.POST,
+                buscar_pessoa=buscar_pessoa
+            )
         else:
-            data['frm_inline'] = EmprestimoReservaInLine()
+            data['frm_inline'] = EmprestimoReservaInLine(
+                buscar_pessoa=buscar_pessoa
+            )
         return data
 
     def form_valid(self, form):
