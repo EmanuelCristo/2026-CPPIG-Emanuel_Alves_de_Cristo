@@ -31,6 +31,14 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         {{ frm_inline.management_form }}
+
+                        {% if frm_inline.non_form_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for erro in frm_inline.non_form_errors %}
+                                    {{ erro }}<br>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>

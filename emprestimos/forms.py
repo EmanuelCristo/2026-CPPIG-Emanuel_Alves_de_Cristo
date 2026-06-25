@@ -24,22 +24,6 @@ class EmprestimoModelForm(forms.ModelForm):
             raise ValidationError("A data de retirada não pode ser no futuro.")
         return data_retirada
 
-    def clean(self):
-        cleaned_data = super().clean()
-        data_retirada = cleaned_data.get('dataRetirada')
-
-        if self.instance.pk and data_retirada:
-            lista_reservas = Reserva.objects.filter(
-                emprestimo_reservas=self.instance
-            )
-            for reserva_obj in lista_reservas:
-                if data_retirada < reserva_obj.inicioReserva:
-                    raise ValidationError(
-                        f"A data de retirada não pode ser antes do início da reserva"
-                    )
-
-        return cleaned_data
-
 class EmprestimoReservaFormSet(BaseInlineFormSet):
     def __init__(self, *args, **kwargs):
         buscar_pessoa = kwargs.pop('buscar_pessoa', None)
@@ -74,31 +58,43 @@ class EmprestimoReservaFormSet(BaseInlineFormSet):
                 else:
                     form.fields['reserva'].queryset = queryset_final
 
-    # def clean(self):
-    #     super().clean()
-    #
-    #     reservas_validas = 0
-    #     data_retirada = self.instance.dataRetirada if self.instance and self.instance.pk else None
-    #
-    #     for form in self.forms:
-    #         if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
-    #             reserva = form.cleaned_data.get('reserva')
-    #             # titular_emprestimo = form.cleaned_data.get('reserva__titular')
-    #             if reserva:
-    #                 reservas_validas += 1
-    #
-    #                 if data_retirada and data_retirada < reserva.inicioReserva:
-    #                     raise ValidationError(
-    #                         f"A data de retirada não pode ser antes do início da reserva"
-    #                     )
-    #
-    #                 # form.fields['reserva'].queryset = Reserva.objects.filter(titular=titular_emprestimo)
-    #
-    #
-    #     if reservas_validas == 0:
-    #         raise ValidationError(
-    #             "Selecione pelo menos uma reserva para fazer o empréstimo"
-    #         )
+    def clean(self):
+        super().clean()
+
+        reservas_validas = 0
+        data_retirada = self.instance.dataRetirada if self.instance and self.instance.pk else None
+        titular_atual = None
+
+        for form in self.forms:
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                reserva = form.cleaned_data.get('reserva')
+
+                if reserva:
+                    reservas_validas += 1
+                    titular_atual = reserva.titular
+
+                    if data_retirada and data_retirada < reserva.inicioReserva:
+                        form.add_error('reserva', "A data de retirada não pode ser antes do início da reserva")
+
+        if reservas_validas == 0:
+            raise ValidationError(
+                "Selecione pelo menos uma reserva para fazer o empréstimo"
+            )
+
+        if titular_atual:
+            agora = timezone.now()
+
+            possui_atrasos = Emprestimo.objects.filter(
+                status='A',
+                reservas__titular=titular_atual,
+                reservas__fimReserva__lt=agora
+            ).exists()
+
+            if possui_atrasos:
+                raise ValidationError(
+                    f"Bloqueio: O usuário {titular_atual.nome} possui chaves com a devolução em atraso. "
+                    f"É necessário realizar as devoluções pendentes para realizar novos emprestimos."
+                )
 
 class EmprestimoTerminadoForm(forms.ModelForm):
     class Meta:
