@@ -137,7 +137,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'emanuelcristo7@gmail.com'
-EMAIL_HOST_PASSWORD = 'clrm juct ijyk ejzj'
+EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = 'Projeto Chaves'
 
 LOGIN_REDIRECT_URL = 'index'
