@@ -6,6 +6,8 @@ from stdimage import StdImageField
 class Pessoa(models.Model):
     nome = models.CharField('Nome', max_length=50, help_text='Nome Completo')
     email = models.EmailField('Email', max_length=100, help_text='Endereço de e-mail')
+    bloqueado = models.BooleanField('Bloquado', default=False, help_text='Bloqueio por danos')
+    quantidadeDanos = models.IntegerField('Quantidade de Danos', default=0, help_text='Contagem de danos')
 
     class Meta:
         abstract = True

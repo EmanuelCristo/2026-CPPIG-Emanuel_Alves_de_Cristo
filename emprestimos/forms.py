@@ -4,6 +4,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory, BaseInlineFormSet
 
+from chaves.models import CopiaChave
 from reservas.models import Reserva
 from .models import Emprestimo, EmprestimoReserva
 
@@ -16,7 +17,7 @@ class EmprestimoModelForm(forms.ModelForm):
             'dataRetirada': forms.DateTimeInput(format='%Y-%m-%dT%H:%M', attrs={'type': 'datetime-local'}),
         }
 
-    def clean_inicioEmprestimo(self):
+    def clean_dataRetirada(self):
         data_retirada = self.cleaned_data.get('dataRetirada')
         agora = timezone.now()
 
@@ -49,6 +50,7 @@ class EmprestimoReservaFormSet(BaseInlineFormSet):
             else:
                 queryset_final = Reserva.objects.none()
 
+        chaves_reservadas = queryset_final.values_list('chave', flat=True)
         for form in self.forms:
             if 'reserva' in form.fields:
                 if form.instance and form.instance.pk and getattr(form.instance, 'reserva', None):
@@ -57,6 +59,16 @@ class EmprestimoReservaFormSet(BaseInlineFormSet):
                     )
                 else:
                     form.fields['reserva'].queryset = queryset_final
+            if 'copia' in form.fields:
+                if form.instance and form.instance.pk and getattr(form.instance, 'copia', None):
+                    form.fields['copia'].queryset = CopiaChave.objects.filter(
+                        pk=form.instance.copia.id
+                    )
+                else:
+                    form.fields['copia'].queryset = CopiaChave.objects.filter(
+                        chave__in=chaves_reservadas,
+                        status='D'
+                    )
 
     def clean(self):
         super().clean()
@@ -68,6 +80,7 @@ class EmprestimoReservaFormSet(BaseInlineFormSet):
         for form in self.forms:
             if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
                 reserva = form.cleaned_data.get('reserva')
+                copia = form.cleaned_data.get('copia')
 
                 if reserva:
                     reservas_validas += 1
@@ -76,6 +89,11 @@ class EmprestimoReservaFormSet(BaseInlineFormSet):
                     if data_retirada and data_retirada < reserva.inicioReserva:
                         form.add_error('reserva', "A data de retirada não pode ser antes do início da reserva")
 
+                    if copia and reserva:
+                        if copia.chave != reserva.chave:
+                            form.add_error('copia', f"Essa cópia não pertence à {reserva.chave.sala}.")
+                        if copia.status != 'D':
+                            form.add_error('copia', "Esta cópia não está disponível.")
         if reservas_validas == 0:
             raise ValidationError(
                 "Selecione pelo menos uma reserva para fazer o empréstimo"
@@ -97,6 +115,17 @@ class EmprestimoReservaFormSet(BaseInlineFormSet):
                 )
 
 class EmprestimoTerminadoForm(forms.ModelForm):
+    ESTADO_CHAVE = (
+        ('D', 'Disponíveis'),
+        ('Q', 'Chave Quebrada'),
+    )
+
+    estado_chave = forms.ChoiceField(
+        choices=ESTADO_CHAVE,
+        label='Estado das Chaves',
+        help_text='Verifique o estado das chaves',
+    )
+
     class Meta:
         model = Emprestimo
         fields = ['dataDevolucao', 'porteiroDevolucao', 'status']
@@ -121,12 +150,36 @@ class EmprestimoTerminadoForm(forms.ModelForm):
 
         return cleaned_data
 
+    def save(self, commit=True):
+        emprestimo = super().save(commit=False)
+        estado = self.cleaned_data.get('estado_chave')
+
+        if commit:
+            emprestimo.save()
+
+            for vinculo in emprestimo.emprestimos_reserva_emprestimo.all():
+                titular = vinculo.reserva.titular
+                copia_fisica = vinculo.copia
+
+                if estado == 'Q':
+                    titular.quantidadeDanos += 1
+                    if titular.quantidadeDanos >= 3:
+                        titular.bloqueado = True
+                    if copia_fisica:
+                        copia_fisica.status = 'Q'
+                        copia_fisica.save()
+                else:
+                    titular.quantidadeDanos = 0
+
+                titular.save()
+
+        return emprestimo
 
 EmprestimoReservaInLine = inlineformset_factory(
     Emprestimo,
     EmprestimoReserva,
     formset=EmprestimoReservaFormSet,
-    fields=('reserva', ),
+    fields=('reserva', 'copia'),
     extra=1,
     can_delete=True,
 )

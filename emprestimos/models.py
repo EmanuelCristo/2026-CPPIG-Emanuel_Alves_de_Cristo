@@ -11,6 +11,7 @@ STATUS_CHOICES = (
 class EmprestimoReserva(models.Model):
     emprestimo = models.ForeignKey(to='emprestimos.Emprestimo', verbose_name='Empréstimo', on_delete=models.CASCADE, related_name='emprestimos_reserva_emprestimo')
     reserva = models.ForeignKey(to='reservas.Reserva', verbose_name='Reserva', on_delete=models.PROTECT, related_name='emprestimos_reserva_reserva')
+    copia = models.ForeignKey(to='chaves.CopiaChave', verbose_name='Cópia Entregue', on_delete=models.PROTECT, null=True)
 
     class Meta:
         verbose_name = 'Reserva do Empréstimo'
