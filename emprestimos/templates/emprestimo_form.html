@@ -44,6 +44,8 @@
                                 <tr>
                                     <th>Reserva</th>
                                     <th class="text-center" style="width: 100px;">Remover</th>
+                                    <th>Cópia</th>
+                                    <th class="text-center" style="width: 100px;">Remover</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,6 +55,12 @@
                                         {{ hidden }}
                                     {% endfor %}
                                     <td>{% bootstrap_field campo.reserva show_label=False %}</td>
+                                    <td class="text-center text-danger">
+                                        {% if frm_inline.can_delete %}
+                                            {{ campo.DELETE }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{% bootstrap_field campo.copia show_label=False %}</td>
                                     <td class="text-center text-danger">
                                         {% if frm_inline.can_delete %}
                                             {{ campo.DELETE }}

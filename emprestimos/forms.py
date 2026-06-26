@@ -128,7 +128,7 @@ class EmprestimoTerminadoForm(forms.ModelForm):
 
     class Meta:
         model = Emprestimo
-        fields = ['dataDevolucao', 'porteiroDevolucao', 'status']
+        fields = ['dataDevolucao', 'porteiroDevolucao']
         widgets = {
             'dataDevolucao': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
@@ -172,6 +172,7 @@ class EmprestimoTerminadoForm(forms.ModelForm):
                     titular.quantidadeDanos = 0
 
                 titular.save()
+                emprestimo.status = 'D'
 
         return emprestimo
 

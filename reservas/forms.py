@@ -32,7 +32,7 @@ class ReservaModelForm(forms.ModelForm):
          if inicio < agora:
              raise ValidationError("O início da reserva não pode ser no passsado.")
 
-    #  if horario_inicio < time(8, 0) or horario_inicio > time(21, 30):
+         if horario_inicio < time(8, 0) or horario_inicio > time(21, 30):
              raise ValidationError("As reservas só podem ser iniciadas entre as 8:00 e as 21:30")
 
          return inicio
@@ -51,11 +51,17 @@ class ReservaModelForm(forms.ModelForm):
         inicio = cleaned_data.get('inicioReserva')
         fim = cleaned_data.get('fimReserva')
         chave_selecionada = cleaned_data.get('chave')
+        titular_selecionado = cleaned_data.get('titular')
 
         if inicio and fim and fim <= inicio:
             raise ValidationError({
                 'fimReserva': "A data/hora de fim deve ser posterior ao início da reserva.",
             })
+
+        if titular_selecionado.bloqueado:
+            raise ValidationError(
+                f"Titular bloqueado, é necessário pedir o desbloqueio diretamente com o administrador do sistema."
+            )
 
         if inicio and fim and chave_selecionada:
             reservas_concorrentes = Reserva.objects.filter(
