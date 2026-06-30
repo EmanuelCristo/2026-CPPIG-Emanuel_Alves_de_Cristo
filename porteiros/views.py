@@ -1,5 +1,7 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render
+from django.db.models import ProtectedError
+from django.shortcuts import render, redirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -49,3 +51,14 @@ class PorteiroDeleteView(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMi
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.groups.filter(name="Admins").exists()
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, f"O Porteiro {self.object} não pode ser excluido. "
+                                    f"Esse porteiro está registrado em uma reserva.")
+
+        return redirect(success_url)

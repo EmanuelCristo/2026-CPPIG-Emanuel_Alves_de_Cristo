@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from .forms import SalaModelForm
 from .models import Sala
 
-class SalasView(ListView):
+class SalasView(LoginRequiredMixin,ListView):
     model = Sala
     template_name = 'salas.html'
 

@@ -58,7 +58,7 @@ class AlunoDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMix
         try:
             return super().post(request, *args, **kwargs)
         except ProtectedError:
-            messages.error(request, f"O servidor {self.object} não pode ser excluido. "
-                                    f"Esse servidor está registrado em uma reserva.")
+            messages.error(request, f"O aluno {self.object} não pode ser excluido. "
+                                    f"Esse aluno está registrado em uma reserva.")
 
         return redirect(success_url)

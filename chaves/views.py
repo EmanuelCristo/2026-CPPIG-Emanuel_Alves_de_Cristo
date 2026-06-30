@@ -92,3 +92,13 @@ class CopiasChaveDeleteView(LoginRequiredMixin,UserPassesTestMixin,SuccessMessag
     def get_success_url(self):
         chave_pai_id = self.object.chave.pk
         return reverse_lazy('chave_copias', kwargs={'pk': chave_pai_id})
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
+            messages.error(request, f"A cópia chave {self.object} não pode ser excluida. "
+                                    f"Essa cópia está registrada em uma reserva.")
+        return redirect(success_url)
