@@ -153,6 +153,7 @@ class EmprestimoTerminadoForm(forms.ModelForm):
     def save(self, commit=True):
         emprestimo = super().save(commit=False)
         estado = self.cleaned_data.get('estado_chave')
+        emprestimo.status = 'D'
 
         if commit:
             emprestimo.save()
@@ -160,6 +161,9 @@ class EmprestimoTerminadoForm(forms.ModelForm):
             for vinculo in emprestimo.emprestimos_reserva_emprestimo.all():
                 titular = vinculo.reserva.titular
                 copia_fisica = vinculo.copia
+
+                vinculo.reserva.status = 'F'
+                vinculo.reserva.save()
 
                 if estado == 'Q':
                     titular.quantidadeDanos += 1
@@ -172,7 +176,6 @@ class EmprestimoTerminadoForm(forms.ModelForm):
                     titular.quantidadeDanos = 0
 
                 titular.save()
-                emprestimo.status = 'D'
 
         return emprestimo
 

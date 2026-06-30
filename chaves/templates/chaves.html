@@ -2,6 +2,7 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% block content %}
+{% load static auth_extras %}
   <section class="section">
     <div class="container">
       <form action="" method="GET">
@@ -35,6 +36,7 @@
                     <td>{{ chave.sala }}</td>
                     <td>{{ chave.quantidadeCopias }}</td>
                     <td style="text-align: center">
+                      {% if request.user|has_group:"Admins" %}
                       <a href="{% url 'chave_editar' chave.pk %}">
                         <span class="icon">
                          <i class="bi bi-pencil-fill"></i>
@@ -45,6 +47,7 @@
                           <i class="bi bi-trash-fill"></i>
                         </span>
                       </a>
+                      {% endif %}
                       <a href="{% url 'chave_copias' chave.pk %}">
                         <button>Listar Copias</button>
                       </a>
@@ -61,9 +64,11 @@
         <div class="card header">
           <h1 class="card-tittle">Nenhuma Chave Cadastrada</h1>
         </div>
+        {% if request.user|has_group:"Admins" %}
         <div class="card-body">
           <a class="btn btn-primary" role="button" href="{%  url 'chave_criar' %}">Cadastrar nova chave</a>
         </div>
+        {% endif %}
       </div>
       {% endif %}
     </div>

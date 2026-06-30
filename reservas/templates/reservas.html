@@ -2,6 +2,7 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% block content %}
+{% load static auth_extras %}
   <section class="section">
     <div class="container">
       {% if object_list %}
@@ -31,7 +32,9 @@
                   <th>Inicio da Reserva</th>
                   <th>Fim da Reserva</th>
                   <th>Status da Reserva</th>
+                  {% if request.user|has_group:"Admins" %}
                   <th style="width: 100px; text-align: center">Ações</th>
+                  {% endif %}
                 </thead>
                 <tbody>
                 {% for reserva in object_list %}
@@ -41,6 +44,7 @@
                     <td>{{ reserva.inicioReserva }}</td>
                     <td>{{ reserva.fimReserva }}</td>
                     <td>{{ reserva.get_status_display }}</td>
+                    {% if request.user|has_group:"Admins" %}
                     <td style="text-align: center">
                       <a href="{% url 'reserva_editar' reserva.pk %}">
                         <span class="icon">
@@ -54,6 +58,7 @@
                       </a>
                     </td>
                   </tr>
+                {% endif %}
                 {% endfor %}
                 </tbody>
               </table>

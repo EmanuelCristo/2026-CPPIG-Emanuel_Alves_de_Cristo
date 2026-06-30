@@ -4,7 +4,7 @@ from porteiros.views import PorteiroListView, PorteiroAddView, PorteiroUpdateVie
 
 urlpatterns = [
     path('porteiros', PorteiroListView.as_view(), name='porteiros'),
-    path('porteiros/criar', PorteiroAddView.as_view(), name='porteiro_criar'),
+    path('porteiro/criar', PorteiroAddView.as_view(), name='porteiro_criar'),
     path('<int:pk>/porteiro/editar', PorteiroUpdateView.as_view(), name='porteiro_editar'),
     path('<int:pk>porteiro/deletar', PorteiroDeleteView.as_view(), name='porteiro_apagar'),
 ]

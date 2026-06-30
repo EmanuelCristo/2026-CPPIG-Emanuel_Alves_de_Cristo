@@ -2,6 +2,7 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% block content %}
+{% load static auth_extras %}
   <section class="section">
     <div class="container">
       {% if object_list %}
@@ -14,7 +15,9 @@
                   <th>Sala</th>
                   <th>Número da Cópia</th>
                   <th>Status</th>
+                  {% if request.user|has_group:"Admins" %}
                   <th style="width: 100px; text-align: center">Ações</th>
+                  {% endif %}
                 </thead>
                 <tbody>
                 {% for copiachave in object_list %}
@@ -22,6 +25,7 @@
                     <td>{{ copiachave.chave.sala }}</td>
                     <td>{{ copiachave.numeroCopia }}</td>
                     <td>{{ copiachave.get_status_display }}</td>
+                    {% if request.user|has_group:"Admins" %}
                     <td style="text-align: center">
                       <a href="{% url 'copia_editar' copiachave.pk %}">
                         <span class="icon">
@@ -34,6 +38,7 @@
                         </span>
                       </a>
                     </td>
+                    {% endif %}
                   </tr>
                 {% endfor %}
                 </tbody>

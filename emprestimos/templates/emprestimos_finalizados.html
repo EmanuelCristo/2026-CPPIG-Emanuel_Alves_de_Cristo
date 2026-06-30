@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% load django_bootstrap5 %}
 {% block content %}
+{% load static auth_extras %}
 <section class="section">
     <div class="container">
         <form action="" method="GET">
@@ -61,11 +62,13 @@
                                 </td>
                                 <td>{{ emprestimo.dataDevolucao }}</td>
                                 <td style="text-align: center">
+                                    {% if request.user|has_group:"Admins" %}
                                     <a href="{% url 'emprestimo_apagar' emprestimo.pk %}">
                                         <span class="icon">
                                             <i class="bi bi-trash-fill"></i>
                                         </span>
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endif %}

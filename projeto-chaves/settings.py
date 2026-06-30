@@ -136,8 +136,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'emanuelcristo7@gmail.com'
-EMAIL_HOST_PASSWORD = 'mdbg mffx boua wast'
+EMAIL_HOST_USER = 'projetochaves7@gmail.com'
+EMAIL_HOST_PASSWORD = 'juov ymam cile xdga'
 DEFAULT_FROM_EMAIL = 'Projeto Chaves'
 
 LOGIN_REDIRECT_URL = 'index'

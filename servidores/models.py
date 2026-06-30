@@ -1,16 +1,15 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.functions import Upper
 from stdimage import StdImageField
 
 
 class Pessoa(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Conta de Login')
     nome = models.CharField('Nome', max_length=50, help_text='Nome Completo')
     email = models.EmailField('Email', max_length=100, help_text='Endereço de e-mail')
     bloqueado = models.BooleanField('Bloquado', default=False, help_text='Bloqueio por danos')
     quantidadeDanos = models.IntegerField('Quantidade de Danos', default=0, help_text='Contagem de danos')
-
-    class Meta:
-        abstract = True
 
     def __str__(self):
         return self.nome

@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% load django_bootstrap5 %}
 {% block content %}
+{% load static auth_extras %}
 <section class="section">
     <div class="container">
         {% if object_list %}
@@ -29,7 +30,9 @@
                                 <th>Titular</th>
                                 <th>Início do Empréstimo</th>
                                 <th>Data do Fim da Reserva</th>
+                                {% if request.user|has_group:"Admins" or request.user|has_group:"Porteiros" %}
                                 <th style="width: 120px; text-align: center">Ações</th>
+                                {% endif %}
                             </thead>
                             <tbody>
                                 {% for emprestimo in object_list %}
@@ -58,8 +61,8 @@
                                         {% if not forloop.last %},<br> {% endif %}
                                             {% endfor %}
                                         </td>
-
                                         <td style="text-align: center">
+                                            {% if request.user|has_group:"Admins" %}
                                             <a href="{% url 'emprestimo_editar' emprestimo.pk %}" class="text-primary me-2" title="Editar">
                                                 <span class="icon">
                                                     <i class="bi bi-pencil-fill"></i>
@@ -70,6 +73,8 @@
                                                     <i class="bi bi-trash-fill"></i>
                                                 </span>
                                             </a>
+                                            {% endif %}
+                                            {% if request.user|has_group:"Admins" or request.user|has_group:"Porteiros" %}
                                             <a href="{% url 'emprestimo_finalizar' emprestimo.pk %}">
                                                 <span class="icon">
                                                     <i class="bi bi-check-circle-fill"></i>
@@ -77,6 +82,7 @@
                                             </a>
                                         </td>
                                     </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>

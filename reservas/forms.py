@@ -1,12 +1,11 @@
 from datetime import time
-
 from django.utils import timezone
-
 from django import forms
 from django.core.exceptions import ValidationError
 
 from chaves.models import Chave, CopiaChave
 from .models import Reserva
+from servidores.models import Pessoa
 
 class ReservaModelForm(forms.ModelForm):
     class Meta:
@@ -18,11 +17,23 @@ class ReservaModelForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-         super().__init__(*args, **kwargs)
-         self.fields['chave'].queryset = Chave.objects.filter(
-             copiachave__status='D'
-         ).distinct()
+        usuario_logado = kwargs.pop('user', None)
 
+        super().__init__(*args, **kwargs)
+
+        self.fields['chave'].queryset = Chave.objects.filter(
+            copiachave__status='D'
+        ).distinct()
+
+        if usuario_logado and hasattr(usuario_logado, 'pessoa'):
+            pessoa_vinculada = usuario_logado.pessoa
+
+            self.fields['titular'].initial = pessoa_vinculada
+
+            eh_admin = usuario_logado.is_superuser or usuario_logado.groups.filter(name='Admins').exists()
+
+            if not eh_admin:
+                self.fields['titular'].queryset = Pessoa.objects.filter(id=pessoa_vinculada.id)
 
     def clean_inicioReserva(self):
          inicio = self.cleaned_data.get('inicioReserva')
@@ -62,12 +73,22 @@ class ReservaModelForm(forms.ModelForm):
             raise ValidationError(
                 f"Titular bloqueado, é necessário pedir o desbloqueio diretamente com o administrador do sistema."
             )
+        if titular_selecionado and chave_selecionada:
+            eh_aluno = hasattr(titular_selecionado, 'aluno')
+            sala_publica = chave_selecionada.sala.tipo == 'Sala comunitária'
+
+            if eh_aluno and not sala_publica:
+                raise ValidationError({
+                    'chave': f"Alunos só podem reservar chaves comunitárias. "
+                             f"A {chave_selecionada.sala.nome} é de uso restrito."
+                })
 
         if inicio and fim and chave_selecionada:
             reservas_concorrentes = Reserva.objects.filter(
                 chave=chave_selecionada,
                 inicioReserva__lt=fim,
-                fimReserva__gt=inicio
+                fimReserva__gt=inicio,
+                status__in=['A', 'R']
             )
 
             if self.instance.pk:
