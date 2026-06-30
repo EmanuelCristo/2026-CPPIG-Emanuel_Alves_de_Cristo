@@ -130,7 +130,7 @@ class EmprestimosFinalizadosListView(ListView):
     template_name = 'emprestimos_finalizados.html'
 
     def get_queryset(self):
-        qs = super(EmprestimosFinalizadosListView, self).get_queryset()
+        qs = super(EmprestimosFinalizadosListView, self).get_queryset().exclude(status='A')
         buscar = self.request.GET.get('buscar')
         if buscar:
             qs = qs.filter(Q(reservas__titular__nome__icontains=buscar)|Q(reservas__chave__sala__nome=buscar))

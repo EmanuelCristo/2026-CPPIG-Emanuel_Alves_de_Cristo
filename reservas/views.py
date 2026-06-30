@@ -63,7 +63,7 @@ class ReservaAddView(LoginRequiredMixin, UserPassesTestMixin,SuccessMessageMixin
         html_email = render_to_string('emails/email_r_realizada.html', dados)
         send_mail(subject='Reserva Realizada',
                   message=texto_email,
-                  from_email='emanuelcristo7@gmail.com',
+                  from_email='projetochaves7@gmail.com',
                   recipient_list=[reserva.titular.email],
                   html_message=html_email,
                   fail_silently=False,
@@ -77,6 +77,8 @@ class ReservaUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageM
     success_url = reverse_lazy('reservas')
     sucess_message = 'Reserva atualizada com sucesso'
 
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.groups.filter(name="Admins").exists()
 
 class ReservaDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     model = Reserva
@@ -104,7 +106,7 @@ class ReservasFinalizadasListView(ListView):
 
     def get_queryset(self):
         buscar = self.request.GET.get('buscar')
-        qs = super(ReservasFinalizadasListView, self).get_queryset()
+        qs = super(ReservasFinalizadasListView, self).get_queryset().exclude(status='A')
         if buscar:
             qs = qs.filter(Q(chave__sala__nome__icontains=buscar)|Q(titular__nome__icontains=buscar))
         return qs

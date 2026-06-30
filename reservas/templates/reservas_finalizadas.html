@@ -4,6 +4,7 @@
 {% block content %}
   <section class="section">
     <div class="container">
+      {% if object_list %}
       <form action="" method="GET">
         <div class="form-group row p-3">
           <label class="col-sm-2 col-from-label">Chave ou titular que Procura: </label>
@@ -18,7 +19,6 @@
           </div>
         </div>
       </form>
-      {% if object_list %}
       <h3 class="text-center">Reservas Finalizadas</h3>
       <div class="card shadow m-3 col-md-12 mx-auto">
         <div class="card">
@@ -35,7 +35,6 @@
                 </thead>
                 <tbody>
                 {% for reserva in object_list %}
-                {% if reserva.status != 'A' %}
                   <tr>
                     <td>{{ reserva.chave }}</td>
                     <td>{{ reserva.titular }}</td>
@@ -50,10 +49,18 @@
                       </a>
                     </td>
                   </tr>
-                {% endif %}
                 {% endfor %}
                 </tbody>
               </table>
+            </div>
+          </div>
+          {% else %}
+            <div class="card text-center shadow m-3 col-md-12 mx-auto">
+              <div class="card header">
+                <h1 class="card-tittle">Nenhuma Reserva Finalizada no Momento</h1>
+              </div>
+            <div class="card-body">
+              <a class="btn btn-primary" role="button" href="{%  url 'reservas %}">Listar reservas</a>
             </div>
           </div>
         {% endif %}

@@ -34,7 +34,7 @@ def dispara_alerta(reserva):
 
 
 def agendar_alerta(reserva):
-    run_date = reserva.fimReserva + timedelta(hours=24)
+    run_date = reserva.fimReserva + timedelta(minutes=1)
 
     if run_date > timezone.now():
         scheduler.add_job(
@@ -45,13 +45,13 @@ def agendar_alerta(reserva):
             id=f'alerta_atraso_{reserva.id}',
             replace_existing=True
         )
+        print(f"Reserva {reserva.id} atrasada.")
 
 def start():
     if not scheduler.running:
         scheduler.start()
 
 def cancelar_reserva_atrasada(reserva_id):
-
     from reservas.models import Reserva
 
     try:
@@ -65,7 +65,7 @@ def cancelar_reserva_atrasada(reserva_id):
         pass
 
 def agendar_cancelamento(reserva):
-    run_date = reserva.inicioReserva + timedelta(minutes=1)
+    run_date = reserva.inicioReserva + timedelta(minutes=15)
 
     if run_date > timezone.now():
         scheduler.add_job(

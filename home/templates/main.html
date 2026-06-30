@@ -2,6 +2,7 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% block content %}
+{% load static auth_extras %}
   <section class="section">
     <div class="container">
       {% if object_list %}
@@ -19,7 +20,7 @@
           </div>
         </div>
       </form>
-      <h3 class="text-center">Reservas de Hoje</h3>
+      <h3 class="text-center">Reservas Para o Dia de Hoje</h3>
       <div class="card shadow m-3 col-md-12 mx-auto">
         <div class="card">
           <div class="card-body p-0">
@@ -64,9 +65,11 @@
               <div class="card header">
                 <h1 class="card-tittle">Nenhuma Reserva para Hoje</h1>
               </div>
+              {% if request.user|has_group:"Admins" or request.user|has_group:"Servidores" or request.user|has_group:"Alunos" %}
             <div class="card-body">
               <a class="btn btn-primary" role="button" href="{%  url 'reserva_criar' %}">Cadastrar nova reserva</a>
             </div>
+              {% endif %}
           </div>
         {% endif %}
         </div>

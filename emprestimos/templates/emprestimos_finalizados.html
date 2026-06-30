@@ -4,6 +4,7 @@
 {% load static auth_extras %}
 <section class="section">
     <div class="container">
+         {% if object_list %}
         <form action="" method="GET">
             <div class="form-group row p-3">
               <label class="col-sm-2 col-from-label">Chave ou titular que Procura: </label>
@@ -34,7 +35,6 @@
                             </thead>
                             <tbody>
                             {% for emprestimo in object_list %}
-                            {% if emprestimo.status != 'A' %}
                             <tr>
                                 <td>
                                     {% for reserva in emprestimo.reservas.all %}
@@ -71,7 +71,6 @@
                                     {% endif %}
                                 </td>
                             </tr>
-                            {% endif %}
                             {% endfor %}
                             </tbody>
                         </table>
@@ -79,6 +78,16 @@
                 </div>
             </div>
         </div>
+        {% else %}
+            <div class="card text-center shadow m-3 col-md-12 mx-auto">
+              <div class="card header">
+                <h1 class="card-tittle">Nenhum Empréstimo Finalizado no Momento</h1>
+              </div>
+            <div class="card-body">
+              <a class="btn btn-primary" role="button" href="{%  url 'emprestimos' %}">Listar empréstimos em andamento</a>
+            </div>
+          </div>
+        {% endif %}
     </div>
 </section>
 {% endblock %}
