@@ -1,13 +1,15 @@
-# Projeto-Integrador
-Desenvolver um sistema web para automatizar a gestão de empréstimos de chaves, garantindo o rastreio de cópias, prazos de devolução e notificações de atraso.
----
-raschunho: Projeto de gerencia de chaves do Centro de Tecnologia da UFSM.
+# Projeto Integrador: Gestão de Chaves
 
-Vai ser possivel cadastrar salas dependendo de cada anexo existente. Vão existir diferentes salas onde diferentes pessoas podem ou não fazer a retirada dessa sala.
+Um sistema web desenvolvido para automatizar, organizar e monitorar o fluxo de reservas e empréstimos de chaves do Centro de Tecnologia da Universidade Federal de Santa Maria (UFSM). O foco do projeto é garantir o rastreio do inventário de cópias, automatizar o controle de prazos e facilitar a rotina de atendimento nas portarias.
 
-EX: Professores, Servidores e Alunos podem pegar a chave de uma sala de aula;  
-Professores poderão pegar as chaves de salas de professores;  
-Professores não vão poder pegar chaves das salas de servidores;  
-Alunos, servidores e professores poderão pegar chaves de salas comunitarias.  
+## Resumo do Sistema
 
-Caso um Anexo esteja fechado, o usuario deve pegar a chave do anexo.
+O sistema simula o controle de chaves por um fluxo digital. Ele permite que usuários solicitem chaves antecipadamente e que os porteiros registrem as entregas e devoluções.
+
+## Principais Funcionalidades
+
+* **Rastreio Físico Individualizado:** Cadastro de salas categorizadas por Anexos (CT, Anexos A, B e C), com monitoramento exato do status de cada cópia física de uma chave (Disponível ou Quebrada).
+* **Controle de Acesso por Perfil:** Interfaces e permissões dinâmicas adaptadas para o dia a dia de Administradores, Porteiros, Servidores e Alunos.
+* **Regras de Negócio e Restrições:** O sistema trava tentativas inválidas automaticamente; Servidores podem reservar chaves de uso restrito ou comunitário, enquanto Alunos só possuem permissão para reservar salas do tipo comunitária.
+* **Rotinas de Automação de Tempo:** Cancelamento automático de reservas caso o usuário não compareça no horário estipulado e disparo automático de alertas via e-mail para atrasos de devolução superiores a 24 horas.
+* **Auditoria e Bloqueios:** Registro do porteiro responsável pela entrega/devolução e sistema de advertência que bloqueia automaticamente usuários que devolvam chaves danificadas repetidas vezes.
